@@ -20,6 +20,9 @@ import Verifica from "pages/Verifica";
 import Tecnico from "pages/Tecnico";
 import Revisado from "pages/Revisado";
 import Aprobacion from "pages/Aprobacion";
+import Direcciontributariavistobueno from "src/pages/Direcciontributariavistobueno.vue";
+import Secretariaeconomiahaciendavistobueno from "src/pages/Secretariaeconomiahaciendavistobueno.vue";
+import Direcciontributariaverificacionfinal from "src/pages/Direcciontributariaverificacionfinal.vue";
 const routes = [
   {
     path: '/',
@@ -32,6 +35,9 @@ const routes = [
       { path: 'verifica', component: Verifica,meta:{requiresAuth: true}},
       { path: 'regtramite', component: Regtramite,meta:{requiresAuth: true}},
       { path: 'direcciontrbutaria', component: Direcciontributaria,meta:{requiresAuth: true}},
+      { path: 'direcciontributariavistobueno', component: Direcciontributariavistobueno,meta:{requiresAuth: true}},
+      { path: 'direcciontributariaverificacionfinal', component: Direcciontributariaverificacionfinal,meta:{requiresAuth: true}},
+      { path: 'secretariaeconomiahaciendavistobueno', component: Secretariaeconomiahaciendavistobueno,meta:{requiresAuth: true}},
       { path: 'infraestructura', component: Infraestructura,meta:{requiresAuth: true}},
       { path: 'seguridadciudadana', component: Seguridadciudadana,meta:{requiresAuth: true}},
       { path: 'medioambiente', component: Medioambiente,meta:{requiresAuth: true}},

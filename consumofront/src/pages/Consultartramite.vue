@@ -42,10 +42,10 @@
           <q-badge v-if="licencia.caso!=undefined" color="teal" :label="'obligacion '+licencia.caso.clasificacion"/>
 <!--          <pre>{{licencia}}</pre>-->
         </div>
-        <div class="col-12 row" v-if="licencia.num!=undefined">
+        <!-- <div class="col-12 row" v-if="licencia.num!=undefined">
           <div class="col-6"><q-btn label="Imprimir Licencia" icon="print" color="teal" class="full-width" @click="imprimir"/></div>
           <div class="col-6"><q-btn label="Imprimir Control" icon="print" color="accent" class="full-width" @click="imprimir2"/></div>
-        </div>
+        </div> -->
       </div>
       </q-card>
 <!--      <q-card class="q-pa-xs">-->

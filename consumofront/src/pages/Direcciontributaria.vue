@@ -64,15 +64,15 @@
 <!--            </q-td>-->
             <q-td key="action" :props="props">
               <!--              <q-badge color="amber">-->
-              <q-btn color="teal" label="Requisitos" icon="list" size="xs" @click="verrequisitos(props.row.requisitos)"/>
-              <q-btn v-if="props.row.unidad=='DIRECCION TRIBUTARIA'" color="negative" label="Enviar" icon="login" size="xs" @click="daralta(props.row)"/>
-              <q-btn v-else color="accent" label="Espectaculos publicos" icon="login" size="xs" @click="daraltae(props.row)"/>
+              <q-btn color="teal" label="Requisitos" icon="list" size="xs" @click="ver(props.row)"/>
+              <q-btn v-if="props.row.unidad=='DIRECCION TRIBUTARIA'" color="negative" label="Enviar" icon="login" size="xs" @click="daraltae(props.row)"/>
+              <!-- <q-btn v-else color="accent" label="Espectaculos publicos" icon="login" size="xs" @click="daraltae(props.row)"/> -->
               <!--              </q-badge>-->
             </q-td>
           </q-tr>
         </template>
       </q-table>
-      <q-dialog v-model="requisitos">
+      <!-- <q-dialog v-model="requisitos">
         <q-card>
           <q-card-section><div class="text-h">Requisitos presentados</div></q-card-section>
           <q-card-section class="q-pt-none">
@@ -84,7 +84,132 @@
             <q-btn flat label="ok" icon="trash" color="negative" v-close-popup/>
           </q-card-section>
         </q-card>
-      </q-dialog>
+      </q-dialog> -->
+
+      <q-dialog full-width  v-model="dialogtramite" persistent>
+          <q-card >
+<!--            <q-card-section>-->
+<!--              <div class="text-h6">Registro Nuevo Contribuyente</div>-->
+<!--            </q-card-section>-->
+            <q-form >
+<!--              <q-select dense filled v-model="tram" :options="tramites" label="Nro Tramites" @update:model-value="cambio(tram.value)"/>-->
+              <q-card-section>
+                <div class="text-h6 text-center" >DATOS DE CONTRIBUYENTE</div>
+                <q-tabs
+                  v-model="tramite.negocio.tipo"
+                  dense
+                  class="text-grey"
+                  active-color="white"
+                  indicator-color="primary"
+                  active-bg-color="accent"
+                  align="justify"
+                  narrow-indicator
+                >
+                  <q-tab name="N" label="NATURAL" />
+                  <q-tab name="J" label="JURIDICO" />
+                </q-tabs>
+                <div class="row">
+                  <div class="col-4">
+                    <q-checkbox rigth-label v-model="r.estado" :label="r.nombre" v-for="(r,i) in tramite.requisitos" :key="i" class="full-width" />
+                  </div>
+                  <div class="col-8">
+                    <div class="row">
+                      <div class="col-6">
+                        <q-input dense outlined v-model="tramite.contribuyente.cedula" label="Cedula de Identidad"/>
+                      </div>
+                      <div class="col-6">
+                        <q-select dense filled v-model="tramite.contribuyente.expedido" :options="exp" label="Expedido" />
+                      </div>
+                      <div class="row">
+                        <div class="col-3"><q-input dense outlined v-model="tramite.contribuyente.paterno" label="Paterno" /></div>
+                        <div class="col-3"><q-input dense outlined v-model="tramite.contribuyente.materno" label="Materno" /></div>
+                        <div class="col-3"><q-input dense outlined v-model="tramite.contribuyente.nombres" label="Nombres" /></div>
+                        <div class="col-3"><q-input dense outlined v-model="tramite.contribuyente.esposo" label="Ap. Esposo" /></div>
+                      </div>
+                      <div class="row">
+                        <div class="col-3"><q-input dense outlined v-model="tramite.contribuyente.nit" label="NIT" /></div>
+                        <div class="col-3"><q-input dense outlined v-model="tramite.contribuyente.domicilio" label="zona/domicilio" /></div>
+                        <div class="col-3"><q-input dense outlined v-model="tramite.contribuyente.calle" label="Calle" /></div>
+                        <div class="col-3"><q-input dense outlined v-model="tramite.contribuyente.numero" label="Numero Casa" /></div>
+                      </div>
+                      <div class="row">
+                        <div class="col-3"><q-input dense outlined v-model="tramite.contribuyente.telefono" label="Telefono" /></div>
+                        <div class="col-3"><q-input dense outlined v-model="tramite.contribuyente.telofi" label="Telf Oficina" /></div>
+                        <div class="col-3"><q-input dense outlined v-model="tramite.contribuyente.casilla" label="Casilla" /></div>
+                        <div class="col-3"><q-input dense outlined v-model="tramite.contribuyente.fax" label="FAX" /></div>
+                      </div>
+                      <div class="row">
+                        <div class="col-4"><q-checkbox dense v-model="tramite.contribuyente.extrangero" label="Extrangero" /></div>
+                        <div class="col-4"><q-input dense outlined v-model="tramite.contribuyente.numeroextrangero" label="Nro Extrang" /></div>
+                        <div class="col-4"><q-input dense outlined v-model="tramite.contribuyente.numerodni" label="Nro DNI" /></div>
+                      </div>
+                    </div>
+                    <div class="text-h6 text-center">DATOS Y UBICACION DE LA ACTIVIDAD</div>
+                    <div class="row">
+                             <div class="col-9"><q-input dense outlined v-model="tramite.caso.clasificacion" label="Actividad" /></div>
+                            <div class="col-3"><q-input dense outlined v-model="tramite.caso.inicio" label="Horario" /></div>
+
+                    </div>
+                    <div class="row">
+
+                      <div class="col-9"><q-input dense outlined v-model="tramite.negocio.razon" label="Nombre" /></div>
+                    </div>
+                    <div class="row">
+
+                      <div class="col-9"><q-input dense outlined v-model="tramite.negocio.descripcionactividad" label="Descripcion" /></div>
+                      <div class="col-3"><q-input dense outlined v-model="tramite.negocio.mts2" label="Sup mts2" /></div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                      <div class="col-3"><q-input dense outlined v-model="tramite.negocio.zona" label="Zona" /></div>
+                      <div class="col-3"><q-input dense outlined v-model="tramite.negocio.Barrio" label="Barrio" /></div>
+                      <div class="col-3"><q-input dense outlined v-model="tramite.negocio.calle" label="AV/Calle" /></div>
+                      <div class="col-3"><q-input dense outlined v-model="tramite.negocio.entrecalles" label="Entre Calles" /></div>
+                    </div>
+                    <div class="row">
+                      <div class="col-3"><q-input dense outlined v-model="tramite.negocio.numpiso" label="Nro Piso" /></div>
+                      <div class="col-3"><q-input dense outlined v-model="tramite.negocio.telefono" label="Telefono" /></div>
+                      <div class="col-3"><q-input dense outlined v-model="tramite.negocio.numeroagua" label="No Med Agua" /></div>
+                      <div class="col-3"><q-input dense outlined v-model="tramite.negocio.numeroelectrico" label="No Med Elec" /></div>
+                    </div>
+                    <div class="row">
+                      <div class="col-4"><q-input dense outlined v-model="tramite.negocio.observaciones" label="Observacion" /></div>
+                      <div class="col-2"><q-checkbox v-model="tramite.negocio.fachada" label="Fachada" /></div>
+                      <div class="col-2"><q-checkbox v-model="tramite.negocio.acera" label="Acera" /></div>
+                      <div class="col-2"><q-checkbox v-model="tramite.negocio.iluminacion" label="Iluminacion" /></div>
+                      <div class="col-2"><q-checkbox v-model="tramite.negocio.letrero" label="Letrero" /></div>
+                    </div>
+
+                    <div class="row">
+                      <q-radio v-model="tramite.negocio.datoestablecimiento" val="PROPIO" label="PROPIO" />
+                      <q-radio v-model="tramite.negocio.datoestablecimiento" val="ALQUILADO" label="ALQUILADO" />
+                      <q-radio v-model="tramite.negocio.datoestablecimiento" val="ANTICRETICO" label="ANTICRETICO" />
+                      <q-radio v-model="tramite.negocio.datoestablecimiento" val="OTROS" label="OTROS" />
+                    </div>
+                    <div class="row">
+                      <div class="col-12">
+                          <!-- <q-form @submit.prevent="asignar">
+                            <div class="row">
+                              <div class="col-6">
+                                <q-select dense label="Asignar Tecnico" :options="users" v-model="user" option-label="name" outlined  />
+                              </div>
+                              <div class="col-3 flex flex-center" >
+                                <q-btn type="submit" label="Asignar " icon="send" color="positive"/>
+                              </div> -->
+                              <div class="col-3 flex flex-center" >
+                                <q-btn  label="CANCELAR" v-close-popup color="red" icon="delete"/>
+                              </div>
+                            <!-- </div>
+                          </q-form> -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </q-card-section>
+
+            </q-form>
+          </q-card>
+        </q-dialog>
     </q-card>
   </q-page>
 </template>
@@ -101,7 +226,7 @@ export default {
   data(){
     return{
       filter:'',
-      requisitos:false,
+      dialogtramite:false,
       misrequisitos:[],
       columns:[
         { name: 'tramitador', label: 'tramitador', field: 'tramitador'},
@@ -130,6 +255,19 @@ export default {
     this.mistramites()
   },
   methods:{
+    ver(tramite){
+       console.log(tramite)
+      // return false
+      this.tramite=tramite
+      this.tramite.negocio.fachada=this.tramite.negocio.fachada=='1'?true:false
+      this.tramite.negocio.acera=this.tramite.negocio.acera=='1'?true:false
+      this.tramite.negocio.iluminacion=this.tramite.negocio.iluminacion=='1'?true:false
+      this.tramite.negocio.letrero=this.tramite.negocio.letrero=='1'?true:false
+      this.tramite.requisitos.forEach(element => {
+        element.estado=true;
+      });
+      this.dialogtramite=true
+    },
     daraltae(i){
 
       // return false
@@ -143,7 +281,8 @@ export default {
         this.$q.loading.show()
         // console.log(i)
         this.$axios.put(process.env.API + '/direccion/' + id, {
-          estado: 'ACTIVIDADES ECONOMICAS',
+          estado: 'REGISTRADO',
+          estado2: 'ACTIVIDAD ECONOMICA',
           nombre: 'ENVIADO A ACTIVIDADES ECONOMICAS',
           observacion: 'INICIADO',
           infraestructura: true,
@@ -153,7 +292,7 @@ export default {
         }).then(res => {
           // console.log(res.data)
           this.mistramites()
-          var img= new Image()
+        /*  var img= new Image()
           img.src='logo.jpg'
 
           var doc = new jsPDF('p','cm','letter')
@@ -165,21 +304,21 @@ export default {
           doc.text(x+11.5, y+1, 'GOBIERNO MUNICIPAL DE ORURO','center');
           doc.text(x+11.5, y+1.5, 'VENTANILLA ÚNICA DA TRÁMITES TRIBUTARIOS','center');
           doc.text(x+11.5, y+2, 'ORDEN DE INSPECCIÓN VUTRAT','center');
-          // doc.text(x+11, y+2, i.contribuyente.representante);
+          // doc.text(x+11, y+2, i.contribuyente.nombres);
           // doc.text(x+11, y+2.5, 'APERTURA '+i.contribuyente.descripcion);
           // doc.text(x+11, y+3, date.formatDate( Date.now(),'DD')+' de '+date.formatDate( Date.now(),'MM')+' del '+date.formatDate( Date.now(),'YYYY'));
 
           doc.text('Nº tramite:'+i.id+' Tipo de trámite:'+i.caso.clasificacion+' Operador:'+this.$store.state.login.user.name, x+2, y+4);
           doc.setFont("courier","normal");
-          let textLines=doc.splitTextToSize('Señor: '+ i.contribuyente.representante.trim(),17)//+' impetrando a la H. comuna autorización para la apertura de: '+i.caso.clasificacion.trim()+'; los informes elevados por la unidad de Actividades Económicas',17)
+          let textLines=doc.splitTextToSize('Señor: '+ i.contribuyente.nombres.trim(),17)//+' impetrando a la H. comuna autorización para la apertura de: '+i.caso.clasificacion.trim()+'; los informes elevados por la unidad de Actividades Económicas',17)
           doc.text(textLines, x+2, y+5);
 
-          textLines=doc.splitTextToSize('Se le instruye realizar la inspección de la actividad económica: '+i.caso.clasificacion.trim()+' cuya dirección es: '+i.contribuyente.direccionrazon.trim()+', De la propiedad de:  '+ i.contribuyente.representante.trim(),17)
+          textLines=doc.splitTextToSize('Se le instruye realizar la inspección de la actividad económica: '+i.caso.clasificacion.trim()+' cuya dirección es: '+i.contribuyente.domicilio.trim()+', De la propiedad de:  '+ i.contribuyente.nombres.trim(),17)
           doc.text(textLines, x+2, y+6);
           // doc.setFont("courier","bold");
           // doc.text('POR TANTO:', x+2, y+9);
           // doc.setFont("courier","normal");
-          // textLines=doc.splitTextToSize('SE RESUELVE: Autorizar al (la) Señor(a): '+ i.contribuyente.representante.trim()+', la apertura y legal funcionamiento de: '+i.caso.clasificacion.trim()+', denominado  '+i.contribuyente.razon.trim()+' ubicado en las calles  de la ciudad, debiendo cumplir con el pago de sus obligaciones conforme a la ordenanza de impuesto y patentes ',17)
+          // textLines=doc.splitTextToSize('SE RESUELVE: Autorizar al (la) Señor(a): '+ i.contribuyente.nombres.trim()+', la apertura y legal funcionamiento de: '+i.caso.clasificacion.trim()+', denominado  '+i.contribuyente.razon.trim()+' ubicado en las calles  de la ciudad, debiendo cumplir con el pago de sus obligaciones conforme a la ordenanza de impuesto y patentes ',17)
           // doc.text(textLines, x+2, y+10);
           //
           // textLines=doc.splitTextToSize('Queda inscrita en el padrón municipal de: actividades económicas, bajo el N '+i.id+'  De la capital.',17)
@@ -201,7 +340,7 @@ export default {
           doc.text('SECRETARIA MUNICIPAL DE ECONOMÍA Y HACIENDA.', x+10, y+15);
           doc.setFont("courier","normal");
           window.open(doc.output('bloburl'), '_blank');
-
+*/
 
         })
       })
@@ -238,13 +377,13 @@ export default {
           let x=0,y=0;
           doc.text(x+10, y+1, 'Nº.');
           doc.text(x+15, y+1, 'Fs.');
-          doc.text(x+11, y+2, i.contribuyente.representante);
-          doc.text(x+11, y+2.5, 'APERTURA '+i.contribuyente.descripcion);
+          doc.text(x+11, y+2, i.contribuyente.nombres);
+          doc.text(x+11, y+2.5, 'APERTURA '+i.contribuyente.calle);
           doc.text(x+11, y+3, date.formatDate( Date.now(),'DD')+' de '+date.formatDate( Date.now(),'MM')+' del '+date.formatDate( Date.now(),'YYYY'));
 
           doc.text('VISTOS Y CONSIDERANDO', x+2, y+4);
           doc.setFont("courier","normal");
-          let textLines=doc.splitTextToSize('Que la solicita presentada por el o la Sr. (a) '+ i.contribuyente.representante.trim()+' impetrando a la H. comuna autorización para la apertura de: '+i.caso.clasificacion.trim()+'; los informes elevados por la unidad de Actividades Económicas',17)
+          let textLines=doc.splitTextToSize('Que la solicita presentada por el o la Sr. (a) '+ i.contribuyente.nombres.trim()+' impetrando a la H. comuna autorización para la apertura de: '+i.caso.clasificacion.trim()+'; los informes elevados por la unidad de Actividades Económicas',17)
           doc.text(textLines, x+2, y+5);
 
           textLines=doc.splitTextToSize('Que, habiendo el (la) impetrante cancelado los derechos correspondientes en la caja del tesoro municipal según comprobante adjunto N '+i.id,17)
@@ -252,7 +391,7 @@ export default {
           doc.setFont("courier","bold");
           doc.text('POR TANTO:', x+2, y+9);
           doc.setFont("courier","normal");
-          textLines=doc.splitTextToSize('SE RESUELVE: Autorizar al (la) Señor(a): '+ i.contribuyente.representante.trim()+', la apertura y legal funcionamiento de: '+i.caso.clasificacion.trim()+', denominado  '+i.contribuyente.razon.trim()+' ubicado en las calles  de la ciudad, debiendo cumplir con el pago de sus obligaciones conforme a la ordenanza de impuesto y patentes ',17)
+          textLines=doc.splitTextToSize('SE RESUELVE: Autorizar al (la) Señor(a): '+ i.contribuyente.nombres.trim()+', la apertura y legal funcionamiento de: '+i.caso.clasificacion.trim()+', denominado  '+i.contribuyente.paterno.trim()+' ubicado en las calles  de la ciudad, debiendo cumplir con el pago de sus obligaciones conforme a la ordenanza de impuesto y patentes ',17)
           doc.text(textLines, x+2, y+10);
 
           textLines=doc.splitTextToSize('Queda inscrita en el padrón municipal de: actividades económicas, bajo el N '+i.id+'  De la capital.',17)
@@ -282,32 +421,46 @@ export default {
     },
     mistramites(){
       this.$q.loading.show()
-      this.$axios.get(process.env.API+'/direccion').then(res=>{
+      this.$axios.post(process.env.API+'/mistramitesdt').then(res=>{
+        console.log(res)
         // console.log(res.data)
         this.tramites=[]
-        res.data.forEach(r=>{
+        // res.data.forEach(r=>{
+        //   const date1 = new Date()
+        //   const date2 = date.extractDate(r.fecha, 'YYYY-MM-DD')
+        //   const unit = 'days'
+        //   const diff = date.getDateDiff(date1, date2, unit)
+        //   // console.log(r)
+        //   this.tramites.push({
+        //     'tramitador':r.tramitador,
+        //     'id':r.id,
+        //     'tipo':r.tipo,
+        //     'clasificacion':r.caso.clasificacion,
+        //     'usuario':r.user.name,
+        //     'tramite':r.nrotramite,
+        //     'fecha':r.fecha,
+        //     'contribuyente':r.contribuyente,
+        //     'dias':diff,
+        //     'estado':r.estado2,
+        //     'unidad':r.estado=='PROCESO'?'EN PROCESO Y REVISADO':r.estado,
+        //     // 'action':'',
+        //     'requisitos':r.requisitos,
+        //     'caso':r.caso
+        //   })
+        // })
+         res.data.forEach(r=>{
           const date1 = new Date()
           const date2 = date.extractDate(r.fecha, 'YYYY-MM-DD')
           const unit = 'days'
           const diff = date.getDateDiff(date1, date2, unit)
-          // console.log(r)
-          this.tramites.push({
-            'tramitador':r.tramitador,
-            'id':r.id,
-            'tipo':r.tipo,
-            'clasificacion':r.caso.clasificacion,
-            'usuario':r.user.name,
-            'tramite':r.nrotramite,
-            'fecha':r.fecha,
-            'contribuyente':r.contribuyente,
-            'dias':diff,
-            'estado':r.estado2,
-            'unidad':r.estado=='PROCESO'?'EN PROCESO Y REVISADO':r.estado,
-            // 'action':'',
-            'requisitos':r.requisitos,
-            'caso':r.caso
-          })
+          let d=r
+          d.clasificacion=r.caso.clasificacion
+          d.dias=diff
+          d.estado=r.estado
+          d.unidad=r.estado2
+          this.tramites.push(d)
         })
+
 
         // this.contribuyentes=res.data
         this.$q.loading.hide()

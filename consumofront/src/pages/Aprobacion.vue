@@ -59,12 +59,17 @@
                 {{ props.row.unidad }}
               </q-td>
               <q-td key="action" :props="props">
-                <q-btn color="teal" label="Ver " icon="code" size="xs" @click="ver(props.row)"/>
+                <q-btn color="blue" label="padron " icon="print" size="xs" @click="imprimir(props.row)"/>
+                 <q-btn color="blue-grey" label="licencia " icon="print" size="xs" @click="imprimir2(props.row)"/><hr>
+                  <q-btn color="light-green-6" label="Resolucion Adm. y envio a visto bueno" icon="print" size="xs" @click="resoladmin(props.row)"/>
+                  <!-- <q-btn color="teal" label="Enviar para visto bueno " icon="check_circle_outline" size="xs" @click="ver(props.row)"/> -->
                 <!--              <q-btn color="negative" label="Dar alta" icon="login" size="xs" @click="daralta(props.row)"/>-->
               </q-td>
             </q-tr>
           </template>
         </q-table>
+          <div id="qr_code">
+    </div>
         <q-dialog full-width  v-model="dialogtramite" persistent>
           <q-card >
             <!--            <q-card-section>-->
@@ -196,7 +201,9 @@
 </template>
 <script>
 import {date} from "quasar";
-
+const { addToDate } = date
+import $ from 'jquery'
+import { jsPDF } from "jspdf";
 export default {
   data(){
     return{
@@ -215,8 +222,15 @@ export default {
       filter:'',
       tramite:{},
       dialogtramite:false,
-      // users:[],
-      // user:{}
+
+      requisitos:false,
+      tramites2:[],
+      seguimientos:[],
+      licencias:[],
+      licencias2:[],
+      licencia:[],
+      contribuyente:{},
+      negocio:{}
     }
   },
   created(){
@@ -225,6 +239,95 @@ export default {
 
   },
   methods:{
+    imprimir(i){
+      console.log(i)
+      var doc = new jsPDF('p','cm','letter')
+      // console.log(dat);
+      doc.setFont("courier");
+      doc.setFontSize(10);
+      var x=0,y=0;
+      doc.text(x+15, y+6.5,i.licencia.num);
+      doc.text(x+2, y+8, i.contribuyente.nombres + ' ' +i.contribuyente.paterno+ ' '+ i.contribuyente.materno);
+      doc.text(x+2, y+9.5, i.negocio.razon);
+      doc.text(x+2, y+11, i.negocio.calle+' '+ i.negocio.entrecalles);
+      doc.text(x+2, y+12.5, i.licencia.fechaautorizacion);
+      doc.text(x+6, y+12.5, i.licencia.fechafin);
+      doc.text(x+11, y+12.5, i.licencia.caso.inicio+'-'+i.licencia.caso.fin);
+      doc.text(x+16, y+12.5, i.licencia.numlicencia);
+      doc.text(x+2, y+15, i.negocio.descripcionactividad);
+      doc.text(x+2, y+17, i.licencia.caso.clasificacion);
+      console.log(i.licencia)
+      let miPrimeraPromise = new Promise((resolve, reject) => {
+        // Llamamos a resolve(...) cuando lo que estabamos haciendo finaliza con éxito, y reject(...) cuando falla.
+        // En este ejemplo, usamos setTimeout(...) para simular código asíncrono.
+        // En la vida real, probablemente uses algo como XHR o una API HTML5.
+        var qrcode = new QRCode(document.getElementById("qr_code"), {
+          text: process.env.API2+"/entregartramite/"+i.licencia.tramite_id,
+          width: 128,
+          height: 128,
+          colorDark : "#000000",
+          colorLight : "#ffffff",
+          correctLevel : QRCode.CorrectLevel.H
+        });
+        setTimeout(function(){
+          resolve("¡Éxito!"); // ¡Todo salió bien!
+        }, 1000);
+      });
+      miPrimeraPromise.then((successMessage) => {
+        // succesMessage es lo que sea que pasamos en la función resolve(...) de arriba.
+        // No tiene por qué ser un string, pero si solo es un mensaje de éxito, probablemente lo sea.
+        // console.log("¡Sí! " + successMessage);
+        let base64Image = $('#qr_code img').attr('src');
+        // console.log(base64Image);
+        doc.addImage(base64Image, 'png', x+8, y+15,2, 2);
+        window.open(doc.output('bloburl'), '_blank');
+      });
+    },
+        imprimir2(i){
+      // console.log(i)
+      var doc = new jsPDF('p','cm','letter')
+      // console.log(dat);
+      doc.setFont("courier");
+      doc.setFontSize(10);
+      var x=0,y=0;
+      doc.text(x+2, y+13.5, i.contribuyente.nombres+' '+ i.contribuyente.paterno+' '+ i.contribuyente.materno );
+      doc.text(x+2, y+15.5, i.negocio.razon);
+      doc.text(x+2, y+17, i.negocio.calle+' '+ i.negocio.entrecalles);
+
+      doc.text(x+2, y+19, i.licencia.caso.tipo);
+      doc.text(x+6, y+19, i.licencia.caso.inicio+'-'+i.licencia.caso.fin);
+      doc.text(x+12, y+19, i.licencia.numlicencia);
+
+      doc.text(x+2, y+20.5, i.licencia.fechaautorizacion);
+      doc.text(x+10.5, y+20.5, i.licencia.fechafin);
+
+
+      let miPrimeraPromise = new Promise((resolve, reject) => {
+        // Llamamos a resolve(...) cuando lo que estabamos haciendo finaliza con éxito, y reject(...) cuando falla.
+        // En este ejemplo, usamos setTimeout(...) para simular código asíncrono.
+        // En la vida real, probablemente uses algo como XHR o una API HTML5.
+        var qrcode = new QRCode(document.getElementById("qr_code"), {
+          text: process.env.API2+"/entregartramite/"+i.licencia.tramite_id,
+          width: 128,
+          height: 128,
+          colorDark : "#000000",
+          colorLight : "#ffffff",
+          correctLevel : QRCode.CorrectLevel.H
+        });
+        setTimeout(function(){
+          resolve("¡Éxito!"); // ¡Todo salió bien!
+        }, 1000);
+      });
+      miPrimeraPromise.then((successMessage) => {
+        // succesMessage es lo que sea que pasamos en la función resolve(...) de arriba.
+        // No tiene por qué ser un string, pero si solo es un mensaje de éxito, probablemente lo sea.
+        // console.log("¡Sí! " + successMessage);
+        let base64Image = $('#qr_code img').attr('src');
+        // console.log(base64Image);
+        doc.addImage(base64Image, 'png', x+8, y+22,2, 2);
+        window.open(doc.output('bloburl'), '_blank');
+      });
+    },
     asignar(){
       this.$q.loading.show()
       this.$axios.post(process.env.API+'/aprobartramite',{
@@ -259,6 +362,78 @@ export default {
 
       })
     },
+
+    resoladmin(i){
+      let id=i.id
+
+
+      // return false;
+
+      this.$q.dialog({
+        title:'Seguro de finalizar tramite y enviar para visto bueno?',
+        // message:''
+        cancel:true
+      }).onOk(()=>{
+        this.$q.loading.show()
+        // console.log(i)
+        this.$axios.put(process.env.API+'/direccion/'+id,{
+          estado:'FINALIZADO',
+          estado2:'DIRECCION TRIBUTARIA',
+          nombre:'ENVIADO PARA VISTO BUENO A DIRECCION TRIBUTARIA',
+          observacion:'PARA VISTO BUENO',
+          infraestructura:false,
+          seguridad:false,
+          medio:false,
+          salubridad:false,
+        }).then(res=>{
+          // console.log(res.data)
+          this.mistramites()
+          // this.$q.loading.hide()
+          var doc = new jsPDF('p','cm','letter')
+          // console.log(i);
+          doc.setFont("courier","bold");
+          doc.setFontSize(10);
+          let x=0,y=0;
+          doc.text(x+10, y+1, 'Nº.');
+          doc.text(x+15, y+1, 'Fs.');
+          doc.text(x+11, y+2, i.contribuyente.nombres);
+          doc.text(x+11, y+2.5, 'APERTURA '+i.contribuyente.calle);
+          doc.text(x+11, y+3, date.formatDate( Date.now(),'DD')+' de '+date.formatDate( Date.now(),'MM')+' del '+date.formatDate( Date.now(),'YYYY'));
+
+          doc.text('VISTOS Y CONSIDERANDO', x+2, y+4);
+          doc.setFont("courier","normal");
+          let textLines=doc.splitTextToSize('Que la solicita presentada por el o la Sr. (a) '+ i.contribuyente.nombres.trim()+' impetrando a la H. comuna autorización para la apertura de: '+i.caso.clasificacion.trim()+'; los informes elevados por la unidad de Actividades Económicas',17)
+          doc.text(textLines, x+2, y+5);
+
+          textLines=doc.splitTextToSize('Que, habiendo el (la) impetrante cancelado los derechos correspondientes en la caja del tesoro municipal según comprobante adjunto N '+i.id,17)
+          doc.text(textLines, x+2, y+7);
+          doc.setFont("courier","bold");
+          doc.text('POR TANTO:', x+2, y+9);
+          doc.setFont("courier","normal");
+          textLines=doc.splitTextToSize('SE RESUELVE: Autorizar al (la) Señor(a): '+ i.contribuyente.nombres.trim()+', la apertura y legal funcionamiento de: '+i.caso.clasificacion.trim()+', denominado  '+i.contribuyente.paterno.trim()+' ubicado en las calles  de la ciudad, debiendo cumplir con el pago de sus obligaciones conforme a la ordenanza de impuesto y patentes ',17)
+          doc.text(textLines, x+2, y+10);
+
+          textLines=doc.splitTextToSize('Queda inscrita en el padrón municipal de: actividades económicas, bajo el N '+i.id+'  De la capital.',17)
+          doc.text(textLines, x+2, y+12.5);
+
+          textLines=doc.splitTextToSize('De conformidad a la normativa municipal en vigencia la autorización de estas actividades queda bajo la responsabilidad de las unidades involucradas po lo que deberán prever conforme establece el art. 14 de la ley 1178(control previo) y disposiciones sobre la responsabilidad por la función publica',17)
+          doc.text(textLines, x+2, y+14);
+
+          // textLines=doc.splitTextToSize('',17)
+          doc.text('Regístrese, comuníquese y archívese.', x+2, y+16);
+
+          // textLines=doc.splitTextToSize('ES CONFORME.',17)
+          doc.setFont("courier","bold");
+          doc.text('ES CONFORME.', x+2, y+17);
+          doc.text('SECRETARIA MUNICIPAL DE ECONOMÍA Y HACIENDA.', x+10, y+18);
+          doc.setFont("courier","normal");
+          window.open(doc.output('bloburl'), '_blank');
+
+
+        })
+      })
+    },
+
     // misusuarios(){
     //   this.$axios.get(process.env.API+'/user').then(res=>{
     //     // console.log(res.data)
@@ -295,8 +470,9 @@ export default {
           let d=r
           d.clasificacion=r.caso.clasificacion
           d.dias=diff
-          d.estado=r.estado2
-          d.unidad=r.estado
+          d.estado=r.estado
+          d.unidad=r.estado2
+          this.licencia.push(r.licencia)
           this.tramites.push(d)
           // this.tramites.push({
           //   'tramitador':r.tramitador,
@@ -325,3 +501,8 @@ export default {
   }
 }
 </script>
+<style>
+#qr_code{
+  display: none;
+}
+</style>

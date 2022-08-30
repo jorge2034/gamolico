@@ -25,6 +25,9 @@ class Tramite extends Model
         'tecnico_id',
         'user_id',
         'caso_id',
+        'smeh',
+        'dirtributaria',
+        'numcomprobante'
     ];
     public function user(){
         return $this->belongsTo(User::class);
@@ -49,6 +52,9 @@ class Tramite extends Model
     }
     public function negocio(){
         return $this->belongsTo(Negocio::class);
+    }
+    public function tecnico(){
+        return $this->belongsTo(User::class);
     }
 
 

@@ -16,7 +16,7 @@ class HistorialmultaController extends Controller
     public function index()
     {
         //
-        
+
     }
 
     /**
@@ -54,13 +54,13 @@ class HistorialmultaController extends Controller
             $lic->estado='CLAUSURA';
             $lic->save();
         }
-        
+
         if(is_numeric($request->dia) && intval($request->dia)>0){
             $historialmulta->inicio=date('Y-m-d');
             $cdia=intval($request->dia);
             $historialmulta->fin=date('Y-m-d', strtotime("+$cdia day"));
             $lic=Licencia::find($request->licencia_id);
-            $lic->estado='SUSPENCION';
+            $lic->estado='SUSPENSION';
             $lic->save();
         }
         $historialmulta->observacion=$request->observacion;

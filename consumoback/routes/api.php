@@ -45,6 +45,14 @@ Route::group(['middleware'=>'auth:sanctum'],function (){
     Route::get('/listregistro',[\App\Http\Controllers\TramiteController::class,'listregistro']);
     Route::post('/mistramites',[\App\Http\Controllers\DireccionController::class,'mistramites']);
     Route::post('/mistramitestecnico',[\App\Http\Controllers\DireccionController::class,'mistramitestecnico']);
+    Route::post('/mistramitesdt',[\App\Http\Controllers\DireccionController::class,'mistramitesdt']);
+    Route::post('/mistramitesdtvistobueno',[\App\Http\Controllers\DireccionController::class,'mistramitesdtvistobueno']);
+    Route::post('/mistramitessmehvistobueno',[\App\Http\Controllers\DireccionController::class,'mistramitessmehvistobueno']);
+    Route::post('/mistramitesverificadosfinal',[\App\Http\Controllers\DireccionController::class,'mistramitesverificadosfinal']);
+    Route::post('/vistobuenotributaria/{id}',[\App\Http\Controllers\DireccionController::class,'vistobuenotributaria']);
+    Route::post('/verificadofinaltributaria/{id}',[\App\Http\Controllers\DireccionController::class,'verificadofinaltributaria']);
+    Route::post('/entregafinal/{id}',[\App\Http\Controllers\DireccionController::class,'entregafinal']);
+    Route::post('/vistobuenosmeh/{id}',[\App\Http\Controllers\DireccionController::class,'vistobuenosmeh']);
     Route::post('/mistramitesrevisado',[\App\Http\Controllers\DireccionController::class,'mistramitesrevisado']);
     Route::post('/mistramitesaprobacion',[\App\Http\Controllers\DireccionController::class,'mistramitesaprobacion']);
     Route::post('/mistramitesterminar',[\App\Http\Controllers\DireccionController::class,'mistramitesterminar']);

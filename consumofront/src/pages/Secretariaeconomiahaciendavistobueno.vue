@@ -1,80 +1,98 @@
-
 <template>
-  <q-page>
-    <div class="row">
-      <div class="col-12">
-        <q-banner dense inline-actions class="text-white bg-red text-center text-bold">
-          ENTREGAR TRAMITE
-        </q-banner>
-      </div>
-      <div class="col-12 q-pa-xs">
-        <q-btn label="Actualizar" icon="refresh" @click="mistramites" color="info"/>
-      </div>
-      <div class="col-12">
-        <q-table
-          title="Mis tramites"
-          :columns="columns"
-          :rows="tramites"
-          :filter="filter"
-        >
-          <template v-slot:top-right>
-            <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
-              <template v-slot:append>
-                <q-icon name="search" />
-              </template>
-            </q-input>
-          </template>
-          <template v-slot:body="props">
-            <q-tr :props="props">
-              <q-td key="tramitador" :props="props">
-                {{ props.row.tramitador }}
-              </q-td>
-              <q-td key="tipo" :props="props">
-                <q-badge :color="props.row.tipo=='A'?'green':'warning'">
-                  {{ props.row.tipo }}
-                </q-badge>
-              </q-td>
-              <q-td key="clasificacion" :props="props">
-                <q-badge :color="props.row.tipo=='A'?'green':'warning'">
-                  {{ props.row.clasificacion }}
-                </q-badge>
-              </q-td>
-              <q-td key="nrotramite" :props="props">
-                {{ props.row.nrotramite }}
-              </q-td>
-              <q-td key="fecha" :props="props">
-                {{ props.row.fecha }}
-              </q-td>
-              <q-td key="dias" :props="props">
-                <q-badge :color="props.row.dias<=1?'green':props.row.dias==2?'warning':'negative'">
-                  {{ props.row.dias }}
-                </q-badge>
-              </q-td>
-              <q-td key="estado" :props="props">
-                <q-badge :color="props.row.estado=='ENPROCESO'?'green':'warning'">
-                  {{ props.row.estado }}
-                </q-badge>
-              </q-td>
-              <q-td key="unidad" :props="props">
+  <q-page class="q-pa-xs">
+    <q-card>
+      <q-badge class="text-h6 full-width text-center" color="secondary" >SECRETARIA MUNICIPAL DE ECONOMIA Y HACIENDA Visto Bueno</q-badge>
+      <q-btn @click="mistramites" icon="refresh" label="refrescar" color="secondary" class="q-mt-xs"/>
+      <q-table
+        title="Mis tramites"
+        :columns="columns"
+        :rows="tramites"
+        :filter="filter"
+      >
+        <template v-slot:top-right>
+          <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
+            <template v-slot:append>
+              <q-icon name="search" />
+            </template>
+          </q-input>
+        </template>
+        <template v-slot:body="props">
+          <q-tr :props="props">
+            <q-td key="tramitador" :props="props">
+              {{ props.row.tramitador }}
+            </q-td>
+            <q-td key="tipo" :props="props">
+              <q-badge :color="props.row.tipo=='A'?'green':'warning'">
+                {{ props.row.tipo }}
+              </q-badge>
+            </q-td>
+            <q-td key="clasificacion" :props="props">
+              <q-badge :color="props.row.tipo=='A'?'green':'warning'">
+                {{ props.row.clasificacion }}
+              </q-badge>
+            </q-td>
+            <q-td key="tramite" :props="props">
+<!--              <q-badge color="orange">-->
+                {{ props.row.tramite }}
+<!--              </q-badge>-->
+            </q-td>
+<!--            <q-td key="fecha" :props="props">-->
+<!--&lt;!&ndash;              <q-badge color="primary">&ndash;&gt;-->
+<!--                {{ props.row.fecha }}-->
+<!--&lt;!&ndash;              </q-badge>&ndash;&gt;-->
+<!--            </q-td>-->
+            <q-td key="dias" :props="props">
+              <q-badge :color="props.row.dias<=2?'green':props.row.dias==2?'warning':'negative'">
+                {{ props.row.dias }} dias
+              </q-badge>
+            </q-td>
+<!--            <q-td key="estado" :props="props">-->
+<!--              <q-badge :color="props.row.estado=='ENPROCESO'?'green':'warning'">-->
+<!--                {{ props.row.estado }}-->
+<!--              </q-badge>-->
+<!--            </q-td>-->
+            <q-td key="unidad" :props="props">
                 {{ props.row.unidad }}
-              </q-td>
-              <q-td key="action" :props="props">
-                <q-btn v-if="props.row.estado=='FINALIZADO'" color="teal" label="Ver " icon="code" size="xs" @click="ver(props.row)"/>
-                <q-badge v-else color='green'>
-                  {{ props.row.estado }}
-                </q-badge>
-                <!--              <q-btn color="negative" label="Dar alta" icon="login" size="xs" @click="daralta(props.row)"/>-->
-              </q-td>
-            </q-tr>
-          </template>
-        </q-table>
-        <q-dialog full-width  v-model="dialogtramite" persistent>
+            </q-td>
+<!--            <q-td key="requisitos" :props="props">-->
+<!--              <ul style="padding: 0px;margin: 0px;border: 0px">-->
+<!--                <li v-for="(r,i) in props.row.requisitos" :key="i" style="padding: 0px;margin: 0px;border: 0px">-->
+<!--&lt;!&ndash;                  <q-badge :label="r.nombre" class="q-pa-none q-ma-none" />&ndash;&gt;-->
+<!--                  {{ r.nombre }}-->
+<!--                </li>-->
+<!--              </ul>-->
+<!--            </q-td>-->
+            <q-td key="action" :props="props">
+              <!--              <q-badge color="amber">-->
+              <q-btn color="light-green-6" label="DAR VISTO BUENO" icon="check_circle_outline" size="xs" @click="ver(props.row)"/>
+              <!-- <q-btn v-if="props.row.unidad=='DIRECCION TRIBUTARIA'" color="negative" label="Enviar" icon="login" size="xs" @click="daraltae(props.row)"/> -->
+              <!-- <q-btn v-else color="accent" label="Espectaculos publicos" icon="login" size="xs" @click="daraltae(props.row)"/> -->
+              <!--              </q-badge>-->
+            </q-td>
+          </q-tr>
+        </template>
+      </q-table>
+      <!-- <q-dialog v-model="requisitos">
+        <q-card>
+          <q-card-section><div class="text-h">Requisitos presentados</div></q-card-section>
+          <q-card-section class="q-pt-none">
+            <ul>
+              <li v-for="(r,i) in misrequisitos" :key="i">{{r.nombre}}</li>
+            </ul>
+          </q-card-section>
+          <q-card-section aling="right">
+            <q-btn flat label="ok" icon="trash" color="negative" v-close-popup/>
+          </q-card-section>
+        </q-card>
+      </q-dialog> -->
+
+      <q-dialog full-width  v-model="dialogtramite" persistent>
           <q-card >
-            <!--            <q-card-section>-->
-            <!--              <div class="text-h6">Registro Nuevo Contribuyente</div>-->
-            <!--            </q-card-section>-->
+<!--            <q-card-section>-->
+<!--              <div class="text-h6">Registro Nuevo Contribuyente</div>-->
+<!--            </q-card-section>-->
             <q-form >
-              <!--              <q-select dense filled v-model="tram" :options="tramites" label="Nro Tramites" @update:model-value="cambio(tram.value)"/>-->
+<!--              <q-select dense filled v-model="tram" :options="tramites" label="Nro Tramites" @update:model-value="cambio(tram.value)"/>-->
               <q-card-section>
                 <div class="text-h6 text-center" >DATOS DE CONTRIBUYENTE</div>
                 <q-tabs
@@ -128,15 +146,13 @@
                     </div>
                     <div class="text-h6 text-center">DATOS Y UBICACION DE LA ACTIVIDAD</div>
                     <div class="row">
-                      <!--                      <div class="col-6"><q-select dense filled v-model="act" @update:model-value="listadosector(act)" :options="actividades" label="Actividad"/></div>-->
-                      <!--                      <div class="col-6"><q-input dense outlined v-model="sectores" label="Sector" readonly /></div>-->
-                      <div class="col-6"><q-input dense outlined v-model="tramite.caso.clasificacion" label="Nombre" /></div>
-                      <div class="col-6"><q-input dense outlined v-model="tramite.caso.inicio" label="Horario" /></div>
+                             <div class="col-9"><q-input dense outlined v-model="tramite.caso.clasificacion" label="Actividad" /></div>
+                            <div class="col-3"><q-input dense outlined v-model="tramite.caso.inicio" label="Horario" /></div>
+
                     </div>
                     <div class="row">
 
                       <div class="col-9"><q-input dense outlined v-model="tramite.negocio.razon" label="Nombre" /></div>
-                      <div class="col-3"><q-input dense outlined v-model="tramite.negocio.horario" label="Horario" /></div>
                     </div>
                     <div class="row">
 
@@ -187,7 +203,7 @@
                             </div>
                             <div class="col-3 flex flex-center" >
 <!--              </ul>-->
-                              <q-btn color="positive" label="Entregar a titular" icon="send" @click="vistobueno(idtramite)"/>
+                              <q-btn color="positive" label="Dar Visto Bueno" icon="send" @click="vistobueno(idtramite)"/>
                             </div>
                             <div class="col-3 flex flex-center" >
                               <q-btn  label="Cancelar" v-close-popup color="red" icon="delete"/>
@@ -203,91 +219,83 @@
             </q-form>
           </q-card>
         </q-dialog>
-      </div>
-    </div>
+    </q-card>
   </q-page>
 </template>
+
 <script>
-import {date} from "quasar";
+import { date } from 'quasar'
+const { addToDate } = date
+import $ from 'jquery'
+import { jsPDF } from "jspdf";
+
 
 export default {
+  // name: 'Local',
   data(){
     return{
-      exp:['OR','LP','PT','PD','SC','CB','CH','TJ','BE','EX'],
+      filter:'',
+      dialogtramite:false,
+      misrequisitos:[],
       columns:[
-        { name: 'tramitador', label: 'tramitador', field: 'tramitador'},
+        { name: 'tramitador', label: 'Titular', field: 'tramitador'},
         { name: 'tipo', label: 'tipo', field: 'tipo'},
         { name: 'clasificacion', label: 'clasificacion', field: 'clasificacion'},
-        { name: 'nrotramite', label: 'tramite', field: 'nrotramite'},
+        { name: 'tramite', label: 'tramite', field: 'tramite'},
+        // { name: 'fecha', label: 'fecha', field: 'fecha'},
         { name: 'dias', label: 'dias', field: 'dias'},
-        { name: 'estado', label: 'estado', field: 'estado'},
-        { name: 'unidad', label: 'unidad', field: 'unidad'},
+        // { name: 'estado', label: 'estado', field: 'estado'},
+        { name: 'unidad', label: 'Estado', field: 'unidad'},
+        // { name: 'requisitos', label: 'requisitos', field: 'requisitos',    align: 'left'},
+        // { name: 'tipo', label: 'tipo', field: 'tipo'},
         { name: 'action', label: 'action', field: 'action'},
       ],
       tramites:[],
-      filter:'',
-      tramite:{},
-      dialogtramite:false,
       idtramite:''
-      // users:[],
-      // user:{}
     }
   },
   created(){
-    this.mistramites()
-    // this.misusuarios()
+    // console.log('aa')
+    // setTimeout(() => {
+    //   console.log("Refresh")
+    // }, 1000)
+    // console.log('ias')
+    // window.location.reload(true)
 
+    this.mistramites()
   },
   methods:{
-    asignar(){
-      this.$q.loading.show()
-      this.$axios.post(process.env.API+'/aprobarterminar',{
-        // user_id:this.user.id,
-        // name:this.user.name,
-        tramite_id:this.tramite.id
-      }).then(res=>{
-        this.$q.loading.hide()
-        // console.log(res.data)
-        // return false
-        this.dialogtramite=false
-        // console.log(res.data)
-        this.mistramites()
-        // this.$swal('Hello Vue world!!!');
-
-        this.$swal({
-          // position: 'top-end',
-          icon: 'success',
-          title: 'Tramite entregado',
-          showConfirmButton: false,
-          timer: 2500
-        })
-
-        return false
-      }).catch(err=>{
-        this.$q.loading.hide()
-        this.$q.notify({
-          message:err.response.data.message,
-          color:'red',
-          icon:'error'
-        })
-
-      })
+    ver(tramite){
+       console.log(tramite)
+      // return false
+      this.tramite=tramite
+      this.idtramite=tramite.id
+      this.tramite.negocio.fachada=this.tramite.negocio.fachada=='1'?true:false
+      this.tramite.negocio.acera=this.tramite.negocio.acera=='1'?true:false
+      this.tramite.negocio.iluminacion=this.tramite.negocio.iluminacion=='1'?true:false
+      this.tramite.negocio.letrero=this.tramite.negocio.letrero=='1'?true:false
+      this.tramite.requisitos.forEach(element => {
+        element.estado=true;
+      });
+      this.dialogtramite=true
     },
+
     vistobueno(i){
       let id = i;
       console.log("id",id)
       this.$q.dialog({
-        title:'Seguro de ENTREGAR DOCUMENTOS FINALIZADOS al titular?',
+        title:'Seguro de dar VISTO BUENO y enviar a DIRECCION TRIBUTARIA?',
         // message:''
         cancel:true
       }).onOk(()=>{
         this.$q.loading.show()
         // console.log(i)
-        this.$axios.post(process.env.API+'/entregafinal/'+id,{
-          estado:'ENTREGADO',
-          estado2:'VENTANILLA UNICA',
-          nombre:'ENTREGADO AL TITULAR',
-          observacion:'DOCUMENTACION ARCHIVADA',
+        this.$axios.post(process.env.API+'/vistobuenosmeh/'+id,{
+          smeh:'1',
+          estado:'FINALIZADO',
+          estado2:'DIRECCION TRIBUTARIA',
+          nombre:'ENVIADO A DIRECCION TRIBUTARIA PARA VERIFICACION FINAL',
+          observacion:'VERIFICACION FINAL',
           infraestructura:false,
           seguridad:false,
           medio:false,
@@ -299,35 +307,19 @@ export default {
         })
       })
     },
-    // misusuarios(){
-    //   this.$axios.get(process.env.API+'/user').then(res=>{
-    //     // console.log(res.data)
-    //     this.users=[]
-    //     res.data.forEach(r=>{
-    //       if (r.tipo=='TECNICO')
-    //         this.users.push(r)
-    //     })
-    //     this.user=this.users[0]
-    //   })
-    // },
-    ver(tramite){
-      // console.log(tramite)
-      // return false
-      this.tramite=tramite
-this.idtramite=tramite.id
-      this.tramite.negocio.fachada=this.tramite.negocio.fachada=='1'?true:false
-      this.tramite.negocio.acera=this.tramite.negocio.acera=='1'?true:false
-      this.tramite.negocio.iluminacion=this.tramite.negocio.iluminacion=='1'?true:false
-      this.tramite.negocio.letrero=this.tramite.negocio.letrero=='1'?true:false
 
-      this.dialogtramite=true
+    verrequisitos(r){
+      // console.log(r)
+      this.requisitos=true
+      this.misrequisitos=r
     },
     mistramites(){
       this.$q.loading.show()
-      this.$axios.post(process.env.API+'/mistramitesterminar').then(res=>{
+      this.$axios.post(process.env.API+'/mistramitessmehvistobueno').then(res=>{
+        console.log(res)
         // console.log(res.data)
         this.tramites=[]
-        res.data.forEach(r=>{
+         res.data.forEach(r=>{
           const date1 = new Date()
           const date2 = date.extractDate(r.fecha, 'YYYY-MM-DD')
           const unit = 'days'
@@ -338,28 +330,11 @@ this.idtramite=tramite.id
           d.estado=r.estado
           d.unidad=r.estado2
           this.tramites.push(d)
-          // this.tramites.push({
-          //   'tramitador':r.tramitador,
-          //   'id':r.id,
-          //   'tipo':r.tipo,
-          //   'clasificacion':r.caso.clasificacion,
-          //   'usuario':r.user.name,
-          //   'tramite':r.nrotramite,
-          //   'fecha':r.fecha,
-          //   'dias':diff,
-          //   'estado':r.estado2,
-          //   'unidad':r.estado,
-          //   'requisitos':r.requisitos
-          // })
         })
+
+
+        // this.contribuyentes=res.data
         this.$q.loading.hide()
-      }).catch(err=>{
-        this.$q.loading.hide()
-        this.$q.notify({
-          message:err.response.data.message,
-          color:'red',
-          icon:'error'
-        })
       })
     }
   }

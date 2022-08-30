@@ -24,6 +24,9 @@ export function auth_success(state, data){
   state.booltecnico=data.user.permisos.find(permiso=>permiso.id==13)!=undefined
   state.boolcomprobante=data.user.permisos.find(permiso=>permiso.id==14)!=undefined
   state.boolaprobacion=data.user.permisos.find(permiso=>permiso.id==15)!=undefined
+  state.direcciontrbutariavistobueno=data.user.permisos.find(permiso=>permiso.id==16)!=undefined
+  state.secretariaeconomiahaciendavistobueno=data.user.permisos.find(permiso=>permiso.id==17)!=undefined
+  state.direcciontributariaverificacionfinal=data.user.permisos.find(permiso=>permiso.id==18)!=undefined
 
 }
 export function   auth_error(state){
@@ -36,6 +39,7 @@ export function salir(state){
   state.booluser=false
   state.boolregtramite=false
   state.direcciontrbutaria=false
+  state.secretariaeconomiahaciendavistobueno=false
   state.infraestructura=false
   state.seguridadciudadana=false
   state.medioambiente=false

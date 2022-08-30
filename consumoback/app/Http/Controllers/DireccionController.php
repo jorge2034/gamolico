@@ -31,12 +31,12 @@ class DireccionController extends Controller
         $seguimiento->tramite_id=$request->tramite_id;
         $seguimiento->user_id=$request->user()->id;
         $seguimiento->save();
-      
+
 
     }
     public function aprobar(Request $request){
         $tramite=Tramite::find($request->tramite_id);
-        
+
         $tramite->user_id=5;
         $tramite->save();
 
@@ -77,27 +77,41 @@ class DireccionController extends Controller
         $tramite=Tramite::find($request->tramite_id);
         $tramite->tipo=$request->caso['tipo'];
         $tramite->caso_id=$request->caso['id'];
-        $tramite->estado='FINALIZADO';
+        if($request->user()->tipo=='TECNICO'){
+            $tramite->estado='VALIDADO';
+            $tramite->estado2='ACTIVIDAD ECONOMICA';
+        }else{
+            $tramite->estado='APROBADO';
+            $tramite->estado2='ACTIVIDAD ECONOMICA';
+            $tramite->numcomprobante=$request->numcomprobante;
+            $tramite->licencia=$request->licencia['numlicencia'];
+        }
+
         $tramite->save();
 
         $seguimiento= new Seguimiento();
-        $seguimiento->nombre="El tecnico ".$request->user()->name." Aprobo ";
-        $seguimiento->observacion="INICIADO";
+        if($request->user()->tipo=='TECNICO'){
+        $seguimiento->nombre="El tecnico ".$request->user()->name." verifico ";
+        $seguimiento->observacion="VERIFICADO";
+        }else{
+            $seguimiento->nombre="Jefe de Actividades Economicas ".$request->user()->name." aprobo el tramite ";
+            $seguimiento->observacion="APROBADO";
+        }
         $seguimiento->fecha=date('Y-m-d');
         $seguimiento->hora=date('H:i:s');
         $seguimiento->tramite_id=$request->tramite_id;
         $seguimiento->user_id=$request->user()->id;
         $seguimiento->save();
 
-        $seguimiento= new Seguimiento();
-        $seguimiento->nombre="TRAMITE FINALIZADO";
-        $seguimiento->observacion="TERMINADO";
-        $seguimiento->fecha=date('Y-m-d');
-        $seguimiento->hora=date('H:i:s');
-        $seguimiento->tramite_id=$tramite->id;
-        $seguimiento->user_id=$request->user()->id;
-        $seguimiento->save();
-
+        // $seguimiento= new Seguimiento();
+        // $seguimiento->nombre="TRAMITE FINALIZADO";
+        // $seguimiento->observacion="TERMINADO";
+        // $seguimiento->fecha=date('Y-m-d');
+        // $seguimiento->hora=date('H:i:s');
+        // $seguimiento->tramite_id=$tramite->id;
+        // $seguimiento->user_id=$request->user()->id;
+        // $seguimiento->save();
+        if($request->user()->tipo!='TECNICO'){
         $licencia=new Licencia();
         $licencia->num=$request->licencia['num'];
         $licencia->numlicencia=$request->licencia['numlicencia'];
@@ -116,6 +130,7 @@ class DireccionController extends Controller
         $licencia->caso_id=$tramite->caso_id;
         $licencia->tramite_id=$tramite->id;
         $licencia->save();
+        }
 
     }
     public function aprobarrevisado(Request $request){
@@ -171,6 +186,62 @@ class DireccionController extends Controller
             ->with('seguimientos')
             ->with('licencia')
             ->where('estado','REGISTRADO')
+            ->orWhere('estado','VALIDADO')
+            ->where('estado2','ACTIVIDAD ECONOMICA')
+            ->get();
+    }
+    public function mistramitesdt(Request $request){
+        return Tramite::
+        with('user')
+            ->with('caso')
+            ->with('negocio')
+            ->with('requisitos')
+            ->with('contribuyente')
+            ->with('seguimientos')
+            ->with('licencia')
+            ->where('estado','REGISTRADO')
+            ->where('estado2','DIRECCION TRIBUTARIA')
+            ->get();
+    }
+    public function mistramitesdtvistobueno(Request $request){
+        return Tramite::
+        with('user')
+            ->with('caso')
+            ->with('negocio')
+            ->with('requisitos')
+            ->with('contribuyente')
+            ->with('seguimientos')
+            ->with('licencia')
+            ->where('estado','FINALIZADO')
+            ->where('estado2','DIRECCION TRIBUTARIA')
+            ->get();
+    }
+    public function mistramitesverificadosfinal(Request $request){
+        return Tramite::
+        with('user')
+            ->with('caso')
+            ->with('negocio')
+            ->with('requisitos')
+            ->with('contribuyente')
+            ->with('seguimientos')
+            ->with('licencia')
+            ->where('estado','FINALIZADO')
+            ->where('estado2','DIRECCION TRIBUTARIA')
+            ->where('smeh','1')
+            ->where('dirtributaria','1')
+            ->get();
+    }
+    public function mistramitessmehvistobueno(Request $request){
+        return Tramite::
+        with('user')
+            ->with('caso')
+            ->with('negocio')
+            ->with('requisitos')
+            ->with('contribuyente')
+            ->with('seguimientos')
+            ->with('licencia')
+            ->where('estado','FINALIZADO')
+            ->where('estado2','SECRETARIA MUNICIPAL DE ECONOMIA Y HACIENDA')
             ->get();
     }
     public function mistramitestecnico(Request $request){
@@ -195,7 +266,7 @@ class DireccionController extends Controller
             ->with('contribuyente')
             ->with('seguimientos')
             ->with('licencia')
-            ->where('estado','COMPROBANTE')
+            ->where('estado','APROBADO')
 //            ->where('user_id',$request->user()->id)
             ->get();
     }
@@ -209,7 +280,10 @@ class DireccionController extends Controller
             ->with('contribuyente')
             ->with('seguimientos')
             ->with('licencia')
-            ->where('estado','APROBADO')
+            ->whereIn('estado',['FINALIZADO','ENTREGADO'])
+            ->where('estado2','VENTANILLA UNICA')
+            ->where('dirtributaria','1')
+            ->where('smeh','1')
 //            ->where('user_id',$request->user()->id)
             ->get();
     }
@@ -228,7 +302,7 @@ class DireccionController extends Controller
     }
     public function index()
     {
-        $tramite= Tramite::where('estado','DIRECCION TRIBUTARIA')
+        $tramite= Tramite::where('estado2','DIRECCION TRIBUTARIA')
             ->with('user')
             ->with('caso')
             ->with('requisitos')
@@ -380,10 +454,11 @@ class DireccionController extends Controller
     {
         $tramite=Tramite::find($id);
         $tramite->estado=$request->estado;
-        if ($request->infraestructura)$tramite->infraestructura=$request->infraestructura;
-        if ($request->seguridad)$tramite->seguridad=$request->seguridad;
-        if ($request->medio)$tramite->medio=$request->medio;
-        if ($request->salubridad)$tramite->salubridad=$request->salubridad;
+        $tramite->estado2=$request->estado2;
+        // if ($request->infraestructura)$tramite->infraestructura=$request->infraestructura;
+        // if ($request->seguridad)$tramite->seguridad=$request->seguridad;
+        // if ($request->medio)$tramite->medio=$request->medio;
+        // if ($request->salubridad)$tramite->salubridad=$request->salubridad;
         $tramite->save();
         $seguimiento= new Seguimiento();
         $seguimiento->nombre=$request->nombre;
@@ -393,7 +468,79 @@ class DireccionController extends Controller
         $seguimiento->tramite_id=$tramite->id;
         $seguimiento->user_id=$request->user()->id;
         $seguimiento->save();
+        return $tramite;
     }
+    public function vistobuenotributaria(Request $request, $id)
+    {
+        $tramite=Tramite::find($id);
+        $tramite->estado=$request->estado;
+        $tramite->estado2=$request->estado2;
+        $tramite->dirtributaria=$request->dirtributaria;
+        // if ($request->infraestructura)$tramite->infraestructura=$request->infraestructura;
+        // if ($request->seguridad)$tramite->seguridad=$request->seguridad;
+        // if ($request->medio)$tramite->medio=$request->medio;
+        // if ($request->salubridad)$tramite->salubridad=$request->salubridad;
+        $tramite->save();
+        $seguimiento= new Seguimiento();
+        $seguimiento->nombre=$request->nombre;
+        $seguimiento->observacion=$request->observacion;
+        $seguimiento->fecha=date('Y-m-d');
+        $seguimiento->hora=date('H:i:s');
+        $seguimiento->tramite_id=$tramite->id;
+        $seguimiento->user_id=$request->user()->id;
+        $seguimiento->save();
+        return $tramite;
+    }
+    public function vistobuenosmeh(Request $request, $id)
+    {
+        $tramite=Tramite::find($id);
+        $tramite->estado=$request->estado;
+        $tramite->estado2=$request->estado2;
+        $tramite->smeh=$request->smeh;
+        $tramite->save();
+        $seguimiento= new Seguimiento();
+        $seguimiento->nombre=$request->nombre;
+        $seguimiento->observacion=$request->observacion;
+        $seguimiento->fecha=date('Y-m-d');
+        $seguimiento->hora=date('H:i:s');
+        $seguimiento->tramite_id=$tramite->id;
+        $seguimiento->user_id=$request->user()->id;
+        $seguimiento->save();
+        return $tramite;
+    }
+    public function verificadofinaltributaria(Request $request, $id)
+    {
+        $tramite=Tramite::find($id);
+        $tramite->estado=$request->estado;
+        $tramite->estado2=$request->estado2;
+        $tramite->save();
+        $seguimiento= new Seguimiento();
+        $seguimiento->nombre=$request->nombre;
+        $seguimiento->observacion=$request->observacion;
+        $seguimiento->fecha=date('Y-m-d');
+        $seguimiento->hora=date('H:i:s');
+        $seguimiento->tramite_id=$tramite->id;
+        $seguimiento->user_id=$request->user()->id;
+        $seguimiento->save();
+        return $tramite;
+    }
+    public function entregafinal(Request $request, $id)
+    {
+        $tramite=Tramite::find($id);
+        $tramite->estado=$request->estado;
+        $tramite->estado2=$request->estado2;
+        $tramite->save();
+        $seguimiento= new Seguimiento();
+        $seguimiento->nombre=$request->nombre;
+        $seguimiento->observacion=$request->observacion;
+        $seguimiento->fecha=date('Y-m-d');
+        $seguimiento->hora=date('H:i:s');
+        $seguimiento->tramite_id=$tramite->id;
+        $seguimiento->user_id=$request->user()->id;
+        $seguimiento->save();
+        return $tramite;
+    }
+
 
     /**
      * Remove the specified resource from storage.

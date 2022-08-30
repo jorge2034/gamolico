@@ -11,7 +11,7 @@
           <div class="col-6 q-pa-xs"><q-input outlined label="N° de tramite" v-model="ntramite" required disable/></div>
           <div class="col-6 q-pa-xs"><q-input outlined label="Fecha" v-model="fecha" required disable/></div>
           <div class="col-6 q-pa-xs"><q-select label="Selecionar Caso" v-model="caso" required outlined :options="actividad" /></div>
-          <div class="col-6 q-pa-xs"><q-input outlined label="TRAMITADOR" required v-model="tramitador"/></div>
+          <div class="col-6 q-pa-xs"><q-input outlined label="TITULAR" required v-model="tramitador"/></div>
 
 
           <div class="col-12 " >
@@ -243,8 +243,8 @@ export default {
        this.negact=caso.caso.clasificacion + ' ' +caso.caso.caso;
        this.neghora= caso.caso.inicio + ' - ' + caso.caso.fin;
        this.contrib.expedido=this.exp[0];
-       this.negocio.actividad = 60
-       this.negocio.seccion = 5
+      //  this.negocio.actividad = 60
+      //  this.negocio.seccion = 5
       this.requisitos=[]
         this.$axios.post(process.env.API+'/listrequisito',caso).then(res=>{
          // console.log(res.data)
@@ -338,7 +338,7 @@ export default {
       doc.setFontSize(10);
       var x=0,y=0;
       doc.text(x+1, y+1, 'Nro Tramite: '+this.ntramite);
-      doc.text(x+1, y+1.5, 'Tramitador: '+this.tramitador);
+      doc.text(x+1, y+1.5, 'Titular: '+this.tramitador);
       doc.text(x+1, y+2, 'Categoria: '+ this.caso.label);
       doc.text(x+1, y+2.5, 'Tipo: '+ this.model.tipo);
       doc.text(x+1, y+3, 'Fecha:' +this.fecha);

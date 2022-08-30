@@ -60,8 +60,8 @@ class NegocioController extends Controller
         }
 
         $negocio= new Negocio;
-        $negocio->actividad_id=$request->negocio['actividad']!=""?intval($request->negocio['actividad']):'';
-        $negocio->sector_id=$request->negocio['seccion']!=""?intval($request->negocio['seccion']):'';
+        // $negocio->actividad_id=$request->negocio['actividad']!=""?intval($request->negocio['actividad']):'';
+        // $negocio->sector_id=$request->negocio['seccion']!=""?intval($request->negocio['seccion']):'';
         $negocio->razon=$request->negocio['razon']!=""?$request->negocio['razon']:'';
         $negocio->descripcionactividad=$request->negocio['descripcionactividad']!=""?$request->negocio['descripcionactividad']:'';
         $negocio->telefono=$request->negocio['telefono']!=""?$request->negocio['telefono']:'';
@@ -93,11 +93,12 @@ class NegocioController extends Controller
         $tramite->negocio_id=$negocio->id;
         $tramite->contribuyente_id=$cid;
         $tramite->estado='REGISTRADO';
+        $tramite->estado2="DIRECCION TRIBUTARIA";
         $tramite->save();
 
         $seguim= new Seguimiento;
         $seguim->nombre="REGISTRO DATOS";
-        $seguim->observacion="REGISTRADO";
+        $seguim->observacion="REGISTRADO Y ENVIO A DIRECCION TRIBUTARIA PARA VERIFICACION";
         $seguim->fecha=date("Y-m-d");
         $seguim->hora=date('H:i:s');
         $seguim->tramite_id=$tramite->id;

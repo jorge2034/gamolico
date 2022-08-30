@@ -233,7 +233,7 @@
 
                       <div class="col-9"><q-input dense outlined v-model="tramite.negocio.descripcionactividad" label="Descripcion" /></div>
                       <div class="col-3"><q-input dense outlined v-model="tramite.negocio.mts2" label="Sup mts2" /></div>
-                      
+
                     </div>
                     <hr>
                     <div class="row">
@@ -269,16 +269,7 @@
                             <div class="col-6"></div>
                           </div>
                           <div class="row">
-                            <div class="col-6"><div class="row">
-<!--                              <q-select dense label="Asignar Tecnico" :options="users" v-model="user" option-label="name" outlined  />-->
-                                <div class="col-6"><q-input outlined dense v-model="lic.num" type="text" label="Numero" 
-                                lazy-rules
-                  :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']"/></div>
-                                <div class="col-6"><q-input outlined dense v-model="lic.numlicencia" type="text" label="N Licencia" 
-                                lazy-rules
-                  :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']"/></div>
-                                </div>
-                            </div>
+
                             <div class="col-3 flex flex-center" >
                               <q-btn type="submit" label="Aprobar " icon="send" color="positive"/>
                             </div>

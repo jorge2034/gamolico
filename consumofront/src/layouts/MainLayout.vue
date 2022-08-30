@@ -102,15 +102,42 @@
             </q-item-section>
           </q-item>-->
 
-<!--          <q-item to="direcciontrbutaria"  exact clickable v-ripple v-if="$store.state.login.direcciontrbutaria">-->
-<!--            <q-item-section avatar>-->
-<!--              <q-icon name="list" />-->
-<!--            </q-item-section>-->
-<!--            <q-item-section>-->
-<!--              <q-item-label> Direccion tributaria</q-item-label>-->
-<!--              <q-item-label caption>Registro de datos</q-item-label>-->
-<!--            </q-item-section>-->
-<!--          </q-item>-->
+         <q-item to="direcciontrbutaria"  exact clickable v-ripple v-if="$store.state.login.direcciontrbutaria">
+           <q-item-section avatar>
+             <q-icon name="list" />
+           </q-item-section>
+           <q-item-section>
+             <q-item-label> Direccion tributaria</q-item-label>
+              <q-item-label caption>Registro de datos</q-item-label>
+           </q-item-section>
+        </q-item>
+        <q-item to="direcciontributariavistobueno"  exact clickable v-ripple v-if="$store.state.login.direcciontrbutaria">
+           <q-item-section avatar>
+             <q-icon name="check_circle_outline" />
+           </q-item-section>
+           <q-item-section>
+             <q-item-label> VISTO BUENO</q-item-label>
+              <q-item-label caption>Direccion tributaria</q-item-label>
+           </q-item-section>
+        </q-item>
+        <q-item to="direcciontributariaverificacionfinal"  exact clickable v-ripple v-if="$store.state.login.direcciontrbutaria">
+           <q-item-section avatar>
+             <q-icon name="check_circle_outline" />
+           </q-item-section>
+           <q-item-section>
+             <q-item-label> VERIFICACION FINAL</q-item-label>
+              <q-item-label caption>Direccion tributaria</q-item-label>
+           </q-item-section>
+        </q-item>
+        <q-item to="secretariaeconomiahaciendavistobueno"  exact clickable v-ripple v-if="$store.state.login.secretariaeconomiahaciendavistobueno">
+           <q-item-section avatar>
+             <q-icon name="check_circle_outline" />
+           </q-item-section>
+           <q-item-section>
+             <q-item-label> VISTO BUENO</q-item-label>
+              <q-item-label caption>Secretaria Municipal de Economia y Hacienda</q-item-label>
+           </q-item-section>
+        </q-item>
 
 <!--          <q-item to="infraestructura"  exact clickable v-ripple v-if="$store.state.login.infraestructura">-->
 <!--            <q-item-section avatar>-->
@@ -223,7 +250,7 @@
               <q-icon name="engineering" />
             </q-item-section>
             <q-item-section>
-              <q-item-label> Aprobacion tramite</q-item-label>
+              <q-item-label> Tramites Aprobados</q-item-label>
               <q-item-label caption> Aprobacion tramite</q-item-label>
             </q-item-section>
           </q-item>
