@@ -60,8 +60,8 @@
               </q-td>
               <q-td key="action" :props="props">
                 <q-btn color="blue" label="padron " icon="print" size="xs" @click="imprimir(props.row)"/>
-                 <q-btn color="blue-grey" label="licencia " icon="print" size="xs" @click="imprimir2(props.row)"/><hr>
-                  <q-btn color="light-green-6" label="Resolucion Adm. y envio a visto bueno" icon="print" size="xs" @click="resoladmin(props.row)"/>
+                  <q-btn color="light-green-6" label="Resolucion Adm. y envio a visto bueno" icon="print" size="xs" @click="resoladmin(props.row)"/><hr>
+                  <q-btn color="blue-grey" label="licencia " icon="print" size="xs" @click="imprimir2(props.row)"/>
                   <!-- <q-btn color="teal" label="Enviar para visto bueno " icon="check_circle_outline" size="xs" @click="ver(props.row)"/> -->
                 <!--              <q-btn color="negative" label="Dar alta" icon="login" size="xs" @click="daralta(props.row)"/>-->
               </q-td>
@@ -262,7 +262,7 @@ export default {
         // En este ejemplo, usamos setTimeout(...) para simular código asíncrono.
         // En la vida real, probablemente uses algo como XHR o una API HTML5.
         var qrcode = new QRCode(document.getElementById("qr_code"), {
-          text: process.env.API2+"/entregartramite/"+i.licencia.tramite_id,
+          text: process.env.API2+"/consultalicencia/"+i.licencia.tramite_id,
           width: 128,
           height: 128,
           colorDark : "#000000",
@@ -284,6 +284,26 @@ export default {
       });
     },
         imprimir2(i){
+          let id=i.id
+          this.$q.dialog({
+        title:'Seguro de finalizar tramite y enviar para visto bueno?',
+        // message:''
+        cancel:true
+      }).onOk(()=>{
+        this.$q.loading.show()
+        // console.log(i)
+        this.$axios.put(process.env.API+'/direccion/'+id,{
+          estado:'FINALIZADO',
+          estado2:'DIRECCION TRIBUTARIA',
+          nombre:'ENVIADO PARA VISTO BUENO A DIRECCION TRIBUTARIA',
+          observacion:'PARA VISTO BUENO',
+          infraestructura:false,
+          seguridad:false,
+          medio:false,
+          salubridad:false,
+        }).then(res=>{
+          // console.log(res.data)
+          this.mistramites()
       // console.log(i)
       var doc = new jsPDF('p','cm','letter')
       // console.log(dat);
@@ -307,7 +327,7 @@ export default {
         // En este ejemplo, usamos setTimeout(...) para simular código asíncrono.
         // En la vida real, probablemente uses algo como XHR o una API HTML5.
         var qrcode = new QRCode(document.getElementById("qr_code"), {
-          text: process.env.API2+"/entregartramite/"+i.licencia.tramite_id,
+          text: process.env.API2+"/consultalicencia/"+i.licencia.tramite_id,
           width: 128,
           height: 128,
           colorDark : "#000000",
@@ -327,6 +347,8 @@ export default {
         doc.addImage(base64Image, 'png', x+8, y+22,2, 2);
         window.open(doc.output('bloburl'), '_blank');
       });
+    })
+      })
     },
     asignar(){
       this.$q.loading.show()
@@ -364,30 +386,9 @@ export default {
     },
 
     resoladmin(i){
-      let id=i.id
 
 
-      // return false;
 
-      this.$q.dialog({
-        title:'Seguro de finalizar tramite y enviar para visto bueno?',
-        // message:''
-        cancel:true
-      }).onOk(()=>{
-        this.$q.loading.show()
-        // console.log(i)
-        this.$axios.put(process.env.API+'/direccion/'+id,{
-          estado:'FINALIZADO',
-          estado2:'DIRECCION TRIBUTARIA',
-          nombre:'ENVIADO PARA VISTO BUENO A DIRECCION TRIBUTARIA',
-          observacion:'PARA VISTO BUENO',
-          infraestructura:false,
-          seguridad:false,
-          medio:false,
-          salubridad:false,
-        }).then(res=>{
-          // console.log(res.data)
-          this.mistramites()
           // this.$q.loading.hide()
           var doc = new jsPDF('p','cm','letter')
           // console.log(i);
@@ -396,24 +397,24 @@ export default {
           let x=0,y=0;
           doc.text(x+10, y+1, 'Nº.');
           doc.text(x+15, y+1, 'Fs.');
-          doc.text(x+11, y+2, i.contribuyente.nombres);
-          doc.text(x+11, y+2.5, 'APERTURA '+i.contribuyente.calle);
-          doc.text(x+11, y+3, date.formatDate( Date.now(),'DD')+' de '+date.formatDate( Date.now(),'MM')+' del '+date.formatDate( Date.now(),'YYYY'));
+          doc.text(x+8, y+2, "RESOLUCION ADMINISTRATIVA");
+          doc.text(x+8, y+2.5, 'APERTURA '+i.caso.clasificacion.trim());
+          doc.text(x+8, y+3, date.formatDate( Date.now(),'DD')+' de '+date.formatDate( Date.now(),'MM')+' del '+date.formatDate( Date.now(),'YYYY'));
 
           doc.text('VISTOS Y CONSIDERANDO', x+2, y+4);
           doc.setFont("courier","normal");
-          let textLines=doc.splitTextToSize('Que la solicita presentada por el o la Sr. (a) '+ i.contribuyente.nombres.trim()+' impetrando a la H. comuna autorización para la apertura de: '+i.caso.clasificacion.trim()+'; los informes elevados por la unidad de Actividades Económicas',17)
+          let textLines=doc.splitTextToSize('Que la solicitud presentada por el o la Sr. (a) '+ i.contribuyente.nombres.trim()+' '+i.contribuyente.paterno.trim()+' '+i.contribuyente.materno.trim()+' impetrando al Gobierno Autonomo Municipal de Oruro comuna autorización para la apertura de: '+i.caso.clasificacion.trim()+'; los informes elevados por la unidad de Actividades Económicas',17)
           doc.text(textLines, x+2, y+5);
 
-          textLines=doc.splitTextToSize('Que, habiendo el (la) impetrante cancelado los derechos correspondientes en la caja del tesoro municipal según comprobante adjunto N '+i.id,17)
+          textLines=doc.splitTextToSize('Que, habiendo el (la) impetrante cancelado los derechos correspondientes en la caja del tesoro municipal según comprobante adjunto N '+i.numcomprobante,17)
           doc.text(textLines, x+2, y+7);
           doc.setFont("courier","bold");
           doc.text('POR TANTO:', x+2, y+9);
           doc.setFont("courier","normal");
-          textLines=doc.splitTextToSize('SE RESUELVE: Autorizar al (la) Señor(a): '+ i.contribuyente.nombres.trim()+', la apertura y legal funcionamiento de: '+i.caso.clasificacion.trim()+', denominado  '+i.contribuyente.paterno.trim()+' ubicado en las calles  de la ciudad, debiendo cumplir con el pago de sus obligaciones conforme a la ordenanza de impuesto y patentes ',17)
+          textLines=doc.splitTextToSize('SE RESUELVE: Autorizar al (la) Señor(a): '+ i.contribuyente.nombres.trim()+' '+i.contribuyente.paterno.trim()+' '+i.contribuyente.materno.trim()+', la apertura y legal funcionamiento de: '+i.caso.clasificacion.trim()+', denominado  '+i.negocio.razon.trim()+' ubicado en las calles '+i.negocio.calle+' '+i.negocio.entrecalles+' de la ciudad, debiendo cumplir con el pago de sus obligaciones conforme a la ordenanza de impuesto y patentes ',17)
           doc.text(textLines, x+2, y+10);
 
-          textLines=doc.splitTextToSize('Queda inscrita en el padrón municipal de: actividades económicas, bajo el N '+i.id+'  De la capital.',17)
+          textLines=doc.splitTextToSize('Queda inscrita en el padrón municipal de: actividades económicas, bajo el N '+i.licencia.num+'.',17)
           doc.text(textLines, x+2, y+12.5);
 
           textLines=doc.splitTextToSize('De conformidad a la normativa municipal en vigencia la autorización de estas actividades queda bajo la responsabilidad de las unidades involucradas po lo que deberán prever conforme establece el art. 14 de la ley 1178(control previo) y disposiciones sobre la responsabilidad por la función publica',17)
@@ -430,8 +431,7 @@ export default {
           window.open(doc.output('bloburl'), '_blank');
 
 
-        })
-      })
+
     },
 
     // misusuarios(){

@@ -598,7 +598,7 @@ export default {
           // textLines=doc.splitTextToSize('ES CONFORME.',17)
           doc.setFont("courier","bold");
           doc.text('Oruro , ' +date.formatDate(new Date(),'DD')+' de '+date.formatDate(new Date(),'MM')+ ' del '+date.formatDate(new Date(),'YYYY'), x+2, y+14);
-          doc.text('SECRETARIA MUNICIPAL DE ECONOMÍA Y HACIENDA.', x+10, y+15);
+          doc.text('UNIDAD DE ACTIVIDADES ECONOMICAS.', x+10, y+15);
           doc.setFont("courier","normal");
           window.open(doc.output('bloburl'), '_blank');
 
