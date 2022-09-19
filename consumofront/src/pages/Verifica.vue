@@ -313,6 +313,7 @@
                   :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']"/></div>
                                 </div>
                             </div>
+
                             <div class="col-3 flex flex-center" >
                               <q-btn type="submit" label="Aprobar " icon="send" color="positive"/>
                             </div>
@@ -320,6 +321,19 @@
                               <q-btn  label="Cancelar" v-close-popup color="red" icon="delete"/>
                             </div>
                           </div>
+                          <div class="row">
+                            <div class="col-6"><div class="row">
+<!--                              <q-select dense label="Asignar Tecnico" :options="users" v-model="user" option-label="name" outlined  />-->
+ <div class="col-4">
+  <q-input outlined dense v-model="nzona" type="text" label="Zona"
+                                lazy-rules
+                  :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']"/></div>
+                                <div class="col-4"><q-input outlined dense v-model="nsector" type="text" label="Sector"
+                                lazy-rules
+                  :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']"/></div>
+                                </div>
+                            </div>
+                            </div>
                         </q-form>
                       </div>
                     </div>
@@ -457,7 +471,10 @@ export default {
       negact:{},
       dialogtramitevalidado:false,
        lic:{},
-       numcomprobante:''
+       numcomprobante:'',
+       nzona:'',
+       nsector:'',
+
     }
   },
   created(){
@@ -537,7 +554,9 @@ export default {
         caso:this.negact.value,
         negocio:this.tramite.negocio,
         licencia:this.lic,
-        numcomprobante:this.numcomprobante
+        numcomprobante:this.numcomprobante,
+        nzona:this.nzona,
+        nsector:this.nsector
       }).then(res=>{
 
 

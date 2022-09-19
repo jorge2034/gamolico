@@ -27,7 +27,9 @@ class Tramite extends Model
         'caso_id',
         'smeh',
         'dirtributaria',
-        'numcomprobante'
+        'numcomprobante',
+        'nzona',
+        'nsector'
     ];
     public function user(){
         return $this->belongsTo(User::class);

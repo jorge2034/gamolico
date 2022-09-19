@@ -84,6 +84,8 @@ class DireccionController extends Controller
             $tramite->estado='APROBADO';
             $tramite->estado2='ACTIVIDAD ECONOMICA';
             $tramite->numcomprobante=$request->numcomprobante;
+            $tramite->nzona=$request->nzona;
+            $tramite->nsector=$request->nsector;
             $tramite->licencia=$request->licencia['numlicencia'];
         }
 

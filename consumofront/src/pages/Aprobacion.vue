@@ -398,7 +398,7 @@ export default {
           doc.text(x+10, y+1, 'Nº.');
           doc.text(x+15, y+1, 'Fs.');
           doc.text(x+8, y+2, "RESOLUCION ADMINISTRATIVA");
-          doc.text(x+8, y+2.5, 'APERTURA '+i.caso.clasificacion.trim());
+          doc.text(x+8, y+2.5, 'APERTURA ');
           doc.text(x+8, y+3, date.formatDate( Date.now(),'DD')+' de '+date.formatDate( Date.now(),'MM')+' del '+date.formatDate( Date.now(),'YYYY'));
 
           doc.text('VISTOS Y CONSIDERANDO', x+2, y+4);
