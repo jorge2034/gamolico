@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-12">
         <q-banner dense inline-actions class="text-white bg-red text-center text-bold">
-          ACTIVIDADES ECONOMICAS - VERIFICAR
+          ACTIVIDADES ECONOMICAS - COMPROBANTES
         </q-banner>
       </div>
       <div class="col-12 q-pa-xs">
@@ -58,9 +58,7 @@
                 {{ props.row.unidad }}
               </q-td>
               <q-td key="action" :props="props">
-                <q-btn v-if="props.row.estado==='REGISTRADO'" color="blue" label="Asignar Inspeccion " icon="fact_check" size="xs" @click="ver(props.row)"/>
-                <q-btn v-if="props.row.estado==='VALIDADO'" color="green" label="Asignar Comprobante " icon="paid" size="xs" @click="vercomprobante(props.row)"/>
-                <q-btn v-if="props.row.estado==='FINALIZADO'" color="positive" label="Aprobar Tramite " icon="check_circle_outline" size="xs" @click="vervalidado(props.row)"/>
+                <q-btn v-if="props.row.estado==='COMPROBANTE'" color="positive" label="ASIGNAR COMPROBANTE " icon="check_circle_outline" size="xs" @click="vervalidado(props.row)"/>
                 <!--              <q-btn color="negative" label="Dar alta" icon="login" size="xs" @click="daralta(props.row)"/>-->
               </q-td>
             </q-tr>
@@ -172,132 +170,6 @@
                             <div class="row">
                               <div class="col-6">
                                 <q-select dense label="Asignar Tecnico" :options="users" v-model="user" option-label="name" outlined  />
-                              </div>
-                              <div class="col-3 flex flex-center" >
-                                <q-btn type="submit" label="Asignar " icon="send" color="positive"/>
-                              </div>
-                              <div class="col-3 flex flex-center" >
-                                <q-btn  label="CANCELAR" v-close-popup color="red" icon="delete"/>
-                              </div>
-                            </div>
-                          </q-form>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </q-card-section>
-
-            </q-form>
-          </q-card>
-        </q-dialog>
-
-
-        <q-dialog full-width  v-model="dialogtramitecomprobante" persistent>
-          <q-card >
-<!--            <q-card-section>-->
-<!--              <div class="text-h6">Registro Nuevo Contribuyente</div>-->
-<!--            </q-card-section>-->
-            <q-form >
-<!--              <q-select dense filled v-model="tram" :options="tramites" label="Nro Tramites" @update:model-value="cambio(tram.value)"/>-->
-              <q-card-section>
-                <div class="text-h6 text-center" >DATOS DE CONTRIBUYENTE</div>
-                <q-tabs
-                  v-model="tramite.negocio.tipo"
-                  dense
-                  class="text-grey"
-                  active-color="white"
-                  indicator-color="primary"
-                  active-bg-color="accent"
-                  align="justify"
-                  narrow-indicator
-                >
-                  <q-tab name="N" label="NATURAL" />
-                  <q-tab name="J" label="JURIDICO" />
-                </q-tabs>
-                <div class="row">
-                  <div class="col-4">
-                    <q-checkbox rigth-label v-model="r.estado" :label="r.nombre" v-for="(r,i) in tramite.requisitos" :key="i" class="full-width" />
-                  </div>
-                  <div class="col-8">
-                    <div class="row">
-                      <div class="col-6">
-                        <q-input dense outlined v-model="tramite.contribuyente.cedula" label="Cedula de Identidad"/>
-                      </div>
-                      <div class="col-6">
-                        <q-select dense filled v-model="tramite.contribuyente.expedido" :options="exp" label="Expedido" />
-                      </div>
-                      <div class="row">
-                        <div class="col-3"><q-input dense outlined v-model="tramite.contribuyente.paterno" label="Paterno" /></div>
-                        <div class="col-3"><q-input dense outlined v-model="tramite.contribuyente.materno" label="Materno" /></div>
-                        <div class="col-3"><q-input dense outlined v-model="tramite.contribuyente.nombres" label="Nombres" /></div>
-                        <div class="col-3"><q-input dense outlined v-model="tramite.contribuyente.esposo" label="Ap. Esposo" /></div>
-                      </div>
-                      <div class="row">
-                        <div class="col-3"><q-input dense outlined v-model="tramite.contribuyente.nit" label="NIT" /></div>
-                        <div class="col-3"><q-input dense outlined v-model="tramite.contribuyente.domicilio" label="zona/domicilio" /></div>
-                        <div class="col-3"><q-input dense outlined v-model="tramite.contribuyente.calle" label="Calle" /></div>
-                        <div class="col-3"><q-input dense outlined v-model="tramite.contribuyente.numero" label="Numero Casa" /></div>
-                      </div>
-                      <div class="row">
-                        <div class="col-3"><q-input dense outlined v-model="tramite.contribuyente.telefono" label="Telefono" /></div>
-                        <div class="col-3"><q-input dense outlined v-model="tramite.contribuyente.telofi" label="Telf Oficina" /></div>
-                        <div class="col-3"><q-input dense outlined v-model="tramite.contribuyente.casilla" label="Casilla" /></div>
-                        <div class="col-3"><q-input dense outlined v-model="tramite.contribuyente.fax" label="FAX" /></div>
-                      </div>
-                      <div class="row">
-                        <div class="col-4"><q-checkbox dense v-model="tramite.contribuyente.extrangero" label="Extrangero" /></div>
-                        <div class="col-4"><q-input dense outlined v-model="tramite.contribuyente.numeroextrangero" label="Nro Extrang" /></div>
-                        <div class="col-4"><q-input dense outlined v-model="tramite.contribuyente.numerodni" label="Nro DNI" /></div>
-                      </div>
-                    </div>
-                    <div class="text-h6 text-center">DATOS Y UBICACION DE LA ACTIVIDAD</div>
-                    <div class="row">
-                             <div class="col-9"><q-input dense outlined v-model="tramite.caso.clasificacion" label="Actividad" /></div>
-                            <div class="col-3"><q-input dense outlined v-model="tramite.caso.inicio" label="Horario" /></div>
-
-                    </div>
-                    <div class="row">
-
-                      <div class="col-9"><q-input dense outlined v-model="tramite.negocio.razon" label="Nombre" /></div>
-                    </div>
-                    <div class="row">
-
-                      <div class="col-9"><q-input dense outlined v-model="tramite.negocio.descripcionactividad" label="Descripcion" /></div>
-                      <div class="col-3"><q-input dense outlined v-model="tramite.negocio.mts2" label="Sup mts2" /></div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                      <div class="col-3"><q-input dense outlined v-model="tramite.negocio.zona" label="Zona" /></div>
-                      <div class="col-3"><q-input dense outlined v-model="tramite.negocio.Barrio" label="Barrio" /></div>
-                      <div class="col-3"><q-input dense outlined v-model="tramite.negocio.calle" label="AV/Calle" /></div>
-                      <div class="col-3"><q-input dense outlined v-model="tramite.negocio.entrecalles" label="Entre Calles" /></div>
-                    </div>
-                    <div class="row">
-                      <div class="col-3"><q-input dense outlined v-model="tramite.negocio.numpiso" label="Nro Piso" /></div>
-                      <div class="col-3"><q-input dense outlined v-model="tramite.negocio.telefono" label="Telefono" /></div>
-                      <div class="col-3"><q-input dense outlined v-model="tramite.negocio.numeroagua" label="No Med Agua" /></div>
-                      <div class="col-3"><q-input dense outlined v-model="tramite.negocio.numeroelectrico" label="No Med Elec" /></div>
-                    </div>
-                    <div class="row">
-                      <div class="col-4"><q-input dense outlined v-model="tramite.negocio.observaciones" label="Observacion" /></div>
-                      <div class="col-2"><q-checkbox v-model="tramite.negocio.fachada" label="Fachada" /></div>
-                      <div class="col-2"><q-checkbox v-model="tramite.negocio.acera" label="Acera" /></div>
-                      <div class="col-2"><q-checkbox v-model="tramite.negocio.iluminacion" label="Iluminacion" /></div>
-                      <div class="col-2"><q-checkbox v-model="tramite.negocio.letrero" label="Letrero" /></div>
-                    </div>
-
-                    <div class="row">
-                      <q-radio v-model="tramite.negocio.datoestablecimiento" val="PROPIO" label="PROPIO" />
-                      <q-radio v-model="tramite.negocio.datoestablecimiento" val="ALQUILADO" label="ALQUILADO" />
-                      <q-radio v-model="tramite.negocio.datoestablecimiento" val="ANTICRETICO" label="ANTICRETICO" />
-                      <q-radio v-model="tramite.negocio.datoestablecimiento" val="OTROS" label="OTROS" />
-                    </div>
-                    <div class="row">
-                      <div class="col-12">
-                          <q-form @submit.prevent="asignarcomprobante">
-                            <div class="row">
-                              <div class="col-6">
-                                <q-select dense label="Asignar Tecnico Comprobante" :options="users" v-model="user" option-label="name" outlined  />
                               </div>
                               <div class="col-3 flex flex-center" >
                                 <q-btn type="submit" label="Asignar " icon="send" color="positive"/>
@@ -429,28 +301,27 @@
                           <div class="row">
                             <div class="col-6"><div class="row">
 <!--                              <q-select dense label="Asignar Tecnico" :options="users" v-model="user" option-label="name" outlined  />-->
- <div class="col-4"><q-input outlined dense v-model="tramite.numcomprobante" type="text" label="Num Comprobante"/></div>
-                                <div class="col-4"><q-input outlined dense v-model="lic.num" type="text" label="Numero"/></div>
-                                <div class="col-4"><q-input outlined dense v-model="lic.numlicencia" type="text" label="N Licencia"/></div>
+ <div class="col-4"><q-input outlined dense v-model="numcomprobante" type="text" label="Num Comprobante"
+                                lazy-rules
+                  :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']"/></div>
+                  <div class="col-4">
+  <q-input outlined dense v-model="nzona" type="text" label="Zona"
+                                lazy-rules
+                  :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']"/></div>
+                                <div class="col-4"><q-input outlined dense v-model="nsector" type="text" label="Sector"
+                                lazy-rules
+                  :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']"/></div>
                                 </div>
                             </div>
 
                             <div class="col-3 flex flex-center" >
-                              <q-btn type="submit" label="Aprobar " icon="send" color="positive"/>
+                              <q-btn type="submit" label="Completar tramite " icon="send" color="positive"/>
                             </div>
                             <div class="col-3 flex flex-center" >
                               <q-btn  label="Cancelar" v-close-popup color="red" icon="delete"/>
                             </div>
                           </div>
-                          <div class="row">
-                            <div class="col-6"><div class="row">
-<!--                              <q-select dense label="Asignar Tecnico" :options="users" v-model="user" option-label="name" outlined  />-->
- <div class="col-4">
-  <q-input outlined dense v-model="tramite.nzona" type="text" label="Zona"/></div>
-                                <div class="col-4"><q-input outlined dense v-model="tramite.nsector" type="text" label="Sector"/></div>
-                                </div>
-                            </div>
-                            </div>
+
                         </q-form>
                       </div>
                     </div>
@@ -582,11 +453,8 @@ export default {
       filter:'',
       tramite:{},
       dialogtramite:false,
-      dialogtramitecomprobante:false,
       users:[],
-      userscomprobante:[],
       user:{},
-      usercomprobante:{},
        actividad:[],
       negact:{},
       dialogtramitevalidado:false,
@@ -664,61 +532,18 @@ export default {
 
       })
     },
-    asignarcomprobante(){
-        //this.daraltae();
-        //return false;
-
-      console.log(this.user)
-      if (this.user==undefined){
-        this.$q.notify({
-          message:'Debes seleccionar un tecnico',
-          color:'red',
-          icon:'error'
-        })
-        return false
-      }
-      this.$q.loading.show()
-      this.$axios.post(process.env.API+'/asignarcomprobante',{
-        user_id:this.user.id,
-        name:this.user.name,
-        tramite_id:this.tramite.id
-      }).then(res=>{
-        this.$q.loading.hide()
-
-        this.dialogtramitecomprobante=false
-        this.mistramites()
-        this.$swal({
-          // position: 'top-end',
-          icon: 'success',
-          title: 'Designado al tecnico '+ this.user.name,
-          showConfirmButton: false,
-          timer: 2500
-        })
-
-
-        return false
-      }).catch(err=>{
-        this.$q.loading.hide()
-        this.$q.notify({
-          message:err.response.data.message,
-          color:'red',
-          icon:'error'
-        })
-
-      })
-    },
     aprobar(){
       this.$q.loading.show()
-      this.$axios.post(process.env.API+'/aprobartecnico',{
+      this.$axios.post(process.env.API+'/aprobarcomprobante',{
         // user_id:this.user.id,
         // name:this.user.name,
         tramite_id:this.tramite.id,
         caso:this.negact.value,
         negocio:this.tramite.negocio,
         licencia:this.lic,
-        numcomprobante:this.tramite.numcomprobante,
-        nzona:this.tramite.nzona,
-        nsector:this.tramite.nsector
+        numcomprobante:this.numcomprobante,
+        nzona:this.nzona,
+        nsector:this.nsector
       }).then(res=>{
 
 
@@ -809,19 +634,6 @@ export default {
       });
       this.dialogtramite=true
     },
-    vercomprobante(tramite){
-       console.log(tramite)
-      // return false
-      this.tramite=tramite
-      this.tramite.negocio.fachada=this.tramite.negocio.fachada=='1'?true:false
-      this.tramite.negocio.acera=this.tramite.negocio.acera=='1'?true:false
-      this.tramite.negocio.iluminacion=this.tramite.negocio.iluminacion=='1'?true:false
-      this.tramite.negocio.letrero=this.tramite.negocio.letrero=='1'?true:false
-      this.tramite.requisitos.forEach(element => {
-        element.estado=true;
-      });
-      this.dialogtramitecomprobante=true
-    },
     vervalidado(tramite){
       // console.log(tramite)
       // return false
@@ -836,7 +648,7 @@ export default {
     },
     mistramites(){
       this.$q.loading.show()
-      this.$axios.post(process.env.API+'/mistramites').then(res=>{
+      this.$axios.post(process.env.API+'/mistramitescomprobante').then(res=>{
          console.log(res.data)
         this.tramites=[]
         res.data.forEach(r=>{

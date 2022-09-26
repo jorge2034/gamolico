@@ -44,6 +44,7 @@ Route::group(['middleware'=>'auth:sanctum'],function (){
     Route::post('/listahistorial/{id}',[\App\Http\Controllers\HistorialmultaController::class,'listahistorial']);
     Route::get('/listregistro',[\App\Http\Controllers\TramiteController::class,'listregistro']);
     Route::post('/mistramites',[\App\Http\Controllers\DireccionController::class,'mistramites']);
+    Route::post('/mistramitescomprobante',[\App\Http\Controllers\DireccionController::class,'mistramitescomprobante']);
     Route::post('/mistramitestecnico',[\App\Http\Controllers\DireccionController::class,'mistramitestecnico']);
     Route::post('/mistramitesdt',[\App\Http\Controllers\DireccionController::class,'mistramitesdt']);
     Route::post('/mistramitesdtvistobueno',[\App\Http\Controllers\DireccionController::class,'mistramitesdtvistobueno']);
@@ -58,8 +59,10 @@ Route::group(['middleware'=>'auth:sanctum'],function (){
     Route::post('/mistramitesterminar',[\App\Http\Controllers\DireccionController::class,'mistramitesterminar']);
     Route::get('/lsector/{id}',[\App\Http\Controllers\NegocioController::class,'lsector']);
     Route::post('/asignar',[\App\Http\Controllers\DireccionController::class,'asignar']);
+    Route::post('/asignarcomprobante',[\App\Http\Controllers\DireccionController::class,'asignarcomprobante']);
     Route::post('/aprobar',[\App\Http\Controllers\DireccionController::class,'aprobar']);
     Route::post('/aprobartecnico',[\App\Http\Controllers\DireccionController::class,'aprobartecnico']);
+    Route::post('/aprobarcomprobante',[\App\Http\Controllers\DireccionController::class,'aprobarcomprobante']);
     Route::post('/aprobarrevisado',[\App\Http\Controllers\DireccionController::class,'aprobarrevisado']);
     Route::post('/aprobartramite',[\App\Http\Controllers\DireccionController::class,'aprobartramite']);
     Route::post('/aprobarterminar',[\App\Http\Controllers\DireccionController::class,'aprobarterminar']);

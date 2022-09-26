@@ -197,7 +197,7 @@
                                 <q-btn type="submit" label="Asignar " icon="send" color="positive"/>
                               </div> -->
                               <div class="col-3 flex flex-center" >
-                                <q-btn  label="CANCELAR" v-close-popup color="red" icon="delete"/>
+                                <q-btn  label="CERRAR" v-close-popup color="red" icon="delete"/>
                               </div>
                             <!-- </div>
                           </q-form> -->

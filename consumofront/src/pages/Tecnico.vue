@@ -364,7 +364,7 @@ export default {
         this.$swal({
           // position: 'top-end',
           icon: 'success',
-          title: 'Tramite probado',
+          title: 'Tramite Aprobado',
           showConfirmButton: false,
           timer: 2500
         })

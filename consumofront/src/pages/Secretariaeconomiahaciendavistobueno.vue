@@ -209,6 +209,15 @@
                               <q-btn  label="Cancelar" v-close-popup color="red" icon="delete"/>
                             </div>
                           </div>
+                          <div class="row">
+                            <div class="col-6"><div class="row">
+<!--                              <q-select dense label="Asignar Tecnico" :options="users" v-model="user" option-label="name" outlined  />-->
+ <div class="col-4">
+  <q-input outlined dense v-model="tramite.nzona" type="text" label="Zona"/></div>
+                                <div class="col-4"><q-input outlined dense v-model="tramite.nsector" type="text" label="Sector"/></div>
+                                </div>
+                            </div>
+                            </div>
                         <!-- </q-form> -->
                       </div>
                     </div>

@@ -17,6 +17,7 @@ import Entregartramite from "pages/Entregartramite";
 import Modifica from "pages/Modifica";
 import Multa from "pages/Multa";
 import Verifica from "pages/Verifica";
+import Comprobante from "pages/Comprobante";
 import Tecnico from "pages/Tecnico";
 import Revisado from "pages/Revisado";
 import Aprobacion from "pages/Aprobacion";
@@ -33,6 +34,7 @@ const routes = [
       { path: 'user', component: User,meta:{requiresAuth: true}},
       { path: 'verificar', component: Verificar,meta:{requiresAuth: true}},
       { path: 'verifica', component: Verifica,meta:{requiresAuth: true}},
+      { path: 'comprobante', component: Comprobante,meta:{requiresAuth: true}},
       { path: 'regtramite', component: Regtramite,meta:{requiresAuth: true}},
       { path: 'direcciontrbutaria', component: Direcciontributaria,meta:{requiresAuth: true}},
       { path: 'direcciontributariavistobueno', component: Direcciontributariavistobueno,meta:{requiresAuth: true}},

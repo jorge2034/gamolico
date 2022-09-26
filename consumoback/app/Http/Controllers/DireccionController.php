@@ -7,7 +7,7 @@ use App\Models\Seguimiento;
 use App\Models\Tramite;
 use App\Models\Negocio;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 class DireccionController extends Controller
 {
     /**
@@ -34,6 +34,26 @@ class DireccionController extends Controller
 
 
     }
+
+    public function asignarcomprobante(Request $request){
+        //        return $request;
+                $tramite=Tramite::find($request->tramite_id);
+                $tramite->user_id=$request->user_id;
+                $tramite->tecnico_id=$request->user_id;
+                $tramite->estado="COMPROBANTE";
+                $tramite->save();
+
+                $seguimiento= new Seguimiento();
+                $seguimiento->nombre="Se designo al tecnico para liquidacion de comprobante".$request->name;
+                $seguimiento->observacion="INICIADO";
+                $seguimiento->fecha=date('Y-m-d');
+                $seguimiento->hora=date('H:i:s');
+                $seguimiento->tramite_id=$request->tramite_id;
+                $seguimiento->user_id=$request->user()->id;
+                $seguimiento->save();
+
+
+            }
     public function aprobar(Request $request){
         $tramite=Tramite::find($request->tramite_id);
 
@@ -71,6 +91,7 @@ class DireccionController extends Controller
 
         $negocio->datoestablecimiento=$request->negocio['datoestablecimiento']!=""?$request->negocio['datoestablecimiento']:'';
         $negocio->tipo=$request->negocio['tipo']!=""?$request->negocio['tipo']:'';
+        $negocio->observacion=$request->negocio['observacion']!=""?$request->negocio['observacion']:'';
 
         $negocio->save();
 
@@ -80,7 +101,12 @@ class DireccionController extends Controller
         if($request->user()->tipo=='TECNICO'){
             $tramite->estado='VALIDADO';
             $tramite->estado2='ACTIVIDAD ECONOMICA';
-        }else{
+        }
+        if($tramite->estado=="COMPROBANTE" && $request->user()->tipo!='TECNICO'){
+            $tramite->estado='COMPROBANTE';
+            $tramite->estado2='ACTIVIDAD ECONOMICA';
+        }
+        if($tramite->estado=="FINALIZADO" && $tramite->estado2=="ACTIVIDAD ECONOMICA" && $request->user()->tipo!='TECNICO'){
             $tramite->estado='APROBADO';
             $tramite->estado2='ACTIVIDAD ECONOMICA';
             $tramite->numcomprobante=$request->numcomprobante;
@@ -135,6 +161,33 @@ class DireccionController extends Controller
         }
 
     }
+
+    public function aprobarcomprobante(Request $request){
+        $tramite=Tramite::find($request->tramite_id);
+            $tramite->estado='FINALIZADO';
+            $tramite->estado2='ACTIVIDAD ECONOMICA';
+            $tramite->numcomprobante=$request->numcomprobante;
+            $tramite->nzona=$request->nzona;
+            $tramite->nsector=$request->nsector;
+
+
+        $tramite->save();
+
+        $seguimiento= new Seguimiento();
+        if($request->user()->tipo=='TECNICO'){
+        $seguimiento->nombre="El tecnico ".$request->user()->name." completo el comprobante ";
+        $seguimiento->observacion="COMPROBANTE COMPLETADO";
+        }else{
+            $seguimiento->nombre="Jefe de Actividades Economicas ".$request->user()->name." aprobo el tramite ";
+            $seguimiento->observacion="APROBADO";
+        }
+        $seguimiento->fecha=date('Y-m-d');
+        $seguimiento->hora=date('H:i:s');
+        $seguimiento->tramite_id=$request->tramite_id;
+        $seguimiento->user_id=$request->user()->id;
+        $seguimiento->save();
+    }
+
     public function aprobarrevisado(Request $request){
         $tramite=Tramite::find($request->tramite_id);
         $tramite->estado='COMPROBANTE';
@@ -189,6 +242,20 @@ class DireccionController extends Controller
             ->with('licencia')
             ->where('estado','REGISTRADO')
             ->orWhere('estado','VALIDADO')
+            ->orWhere('estado','FINALIZADO')
+            ->where('estado2','ACTIVIDAD ECONOMICA')
+            ->get();
+    }
+    public function mistramitescomprobante(Request $request){
+        return Tramite::
+        with('user')
+            ->with('caso')
+            ->with('negocio')
+            ->with('requisitos')
+            ->with('contribuyente')
+            ->with('seguimientos')
+            ->with('licencia')
+            ->where('estado','COMPROBANTE')
             ->where('estado2','ACTIVIDAD ECONOMICA')
             ->get();
     }
@@ -287,6 +354,7 @@ class DireccionController extends Controller
             ->where('dirtributaria','1')
             ->where('smeh','1')
 //            ->where('user_id',$request->user()->id)
+            ->orderBy('id','desc')
             ->get();
     }
     public function mistramitesrevisado(Request $request){
