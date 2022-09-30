@@ -265,7 +265,10 @@ export default {
       doc.text(x+17, y+12.5, i.licencia.numlicencia);
       doc.setFont("courier", 'normal');
       doc.setFontSize(12);
-      doc.text(x+1.2, y+14, i.negocio.descripcionactividad);
+      doc.text(x+1.2, y+14, i.negocio.descripcionactividad.toString().substring(0,29));
+      doc.text(x+1.2, y+14.5, i.negocio.descripcionactividad.toString().substring(29,59));
+      doc.text(x+1.2, y+15, i.negocio.descripcionactividad.toString().substring(59,89));
+
       doc.text(x+1.2, y+16.5, i.licencia.caso.clasificacion);
       console.log(i.licencia)
       let miPrimeraPromise = new Promise((resolve, reject) => {
