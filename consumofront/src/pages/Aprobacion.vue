@@ -244,18 +244,29 @@ export default {
       var doc = new jsPDF('p','cm','letter')
       // console.log(dat);
       doc.setFont("courier");
-      doc.setFontSize(10);
+      doc.setFont(undefined, 'bold');
+
+
+
       var x=0,y=0;
-      doc.text(x+15, y+6.5,i.licencia.num);
-      doc.text(x+2, y+8, i.contribuyente.nombres + ' ' +i.contribuyente.paterno+ ' '+ i.contribuyente.materno);
-      doc.text(x+2, y+9.5, i.negocio.razon);
-      doc.text(x+2, y+11, i.negocio.calle+' '+ i.negocio.entrecalles);
-      doc.text(x+2, y+12.5, i.licencia.fechaautorizacion);
-      doc.text(x+6, y+12.5, i.licencia.fechafin);
-      doc.text(x+11, y+12.5, i.licencia.caso.inicio+'-'+i.licencia.caso.fin);
-      doc.text(x+16, y+12.5, i.licencia.numlicencia);
-      doc.text(x+2, y+15, i.negocio.descripcionactividad);
-      doc.text(x+2, y+17, i.licencia.caso.clasificacion);
+      var width = doc.internal.pageSize.getWidth()
+      doc.setFontSize(19);
+      doc.setFont("courier", 'bold');
+      doc.text(x+15.5, y+6.2,i.licencia.num);
+      //doc.setFont("courier");
+      doc.setFont("courier", 'normal');
+      doc.setFontSize(12);
+      doc.text(width/2, y+8, i.contribuyente.nombres + ' ' +i.contribuyente.paterno+ ' '+ i.contribuyente.materno, { align: 'center' });
+      doc.text(width/2, y+9.3, i.negocio.razon, { align: 'center' });
+      doc.text(width/2, y+10.5, i.negocio.calle+' '+ i.negocio.entrecalles, { align: 'center' });
+      doc.text(x+3, y+12.5, i.licencia.fechaautorizacion);
+      doc.text(x+7, y+12.5, i.licencia.fechafin);
+      doc.text(x+12, y+12.5, i.licencia.caso.inicio+'-'+i.licencia.caso.fin);
+      doc.text(x+17, y+12.5, i.licencia.numlicencia);
+      doc.setFont("courier", 'normal');
+      doc.setFontSize(12);
+      doc.text(x+1.2, y+14, i.negocio.descripcionactividad);
+      doc.text(x+1.2, y+16.5, i.licencia.caso.clasificacion);
       console.log(i.licencia)
       let miPrimeraPromise = new Promise((resolve, reject) => {
         // Llamamos a resolve(...) cuando lo que estabamos haciendo finaliza con éxito, y reject(...) cuando falla.
@@ -279,10 +290,14 @@ export default {
         // console.log("¡Sí! " + successMessage);
         let base64Image = $('#qr_code img').attr('src');
         // console.log(base64Image);
-        doc.addImage(base64Image, 'png', x+8, y+15,2, 2);
+        doc.addImage(base64Image, 'png', x+6.5, y+15.3,2, 2);
         window.open(doc.output('bloburl'), '_blank');
       });
     },
+
+
+
+
         imprimir2(i){
           let id=i.id
           this.$q.dialog({
@@ -306,20 +321,25 @@ export default {
           this.mistramites()
       // console.log(i)
       var doc = new jsPDF('p','cm','letter')
+      var width = doc.internal.pageSize.getWidth()
       // console.log(dat);
       doc.setFont("courier");
-      doc.setFontSize(10);
+      doc.setFontSize(14);
       var x=0,y=0;
-      doc.text(x+2, y+13.5, i.contribuyente.nombres+' '+ i.contribuyente.paterno+' '+ i.contribuyente.materno );
-      doc.text(x+2, y+15.5, i.negocio.razon);
-      doc.text(x+2, y+17, i.negocio.calle+' '+ i.negocio.entrecalles);
+      doc.text(width/2, y+13.5, i.contribuyente.nombres+' '+ i.contribuyente.paterno+' '+ i.contribuyente.materno ,{align:"center"});
+      doc.text(width/2, y+15.1, i.negocio.razon,{align:"center"});
+      doc.text(width/2, y+17, i.negocio.calle+' '+ i.negocio.entrecalles,{align:"center"});
 
-      doc.text(x+2, y+19, i.licencia.caso.tipo);
-      doc.text(x+6, y+19, i.licencia.caso.inicio+'-'+i.licencia.caso.fin);
-      doc.text(x+12, y+19, i.licencia.numlicencia);
+      doc.text(x+3, y+18.7, i.licencia.caso.tipo);
+      doc.text(x+8, y+18.7, i.licencia.caso.inicio+'-'+i.licencia.caso.fin);
+      doc.setFont("courier","bold");
+      doc.setFontSize(14);
+      doc.text(x+14, y+18.7, i.licencia.numlicencia);
 
-      doc.text(x+2, y+20.5, i.licencia.fechaautorizacion);
-      doc.text(x+10.5, y+20.5, i.licencia.fechafin);
+      doc.setFont("courier","normal");
+      doc.setFontSize(14);
+      doc.text(x+3, y+20.5, i.licencia.fechaautorizacion);
+      doc.text(x+12, y+20.5, i.licencia.fechafin);
 
 
       let miPrimeraPromise = new Promise((resolve, reject) => {
@@ -344,7 +364,7 @@ export default {
         // console.log("¡Sí! " + successMessage);
         let base64Image = $('#qr_code img').attr('src');
         // console.log(base64Image);
-        doc.addImage(base64Image, 'png', x+8, y+22,2, 2);
+        doc.addImage(base64Image, 'png', x+4, y+22,2, 2);
         window.open(doc.output('bloburl'), '_blank');
       });
     })
@@ -391,22 +411,27 @@ export default {
 
           // this.$q.loading.hide()
           var doc = new jsPDF('p','cm','letter')
+          var width = doc.internal.pageSize.getWidth()
           // console.log(i);
           doc.setFont("courier","bold");
           doc.setFontSize(10);
-          let x=0,y=0;
+          let x=0,y=3;
           doc.text(x+10, y+1, 'Nº.');
           doc.text(x+15, y+1, 'Fs.');
-          doc.text(x+8, y+2, "RESOLUCION ADMINISTRATIVA");
-          doc.text(x+8, y+2.5, 'APERTURA ');
-          doc.text(x+8, y+3, date.formatDate( Date.now(),'DD')+' de '+date.formatDate( Date.now(),'MM')+' del '+date.formatDate( Date.now(),'YYYY'));
+          doc.setFont("courier","bold");
+          doc.setFontSize(14);
+          doc.text(width/2, y+2, "RESOLUCIÓN ADMINISTRATIVA",{align:"center"});
+          doc.setFont("courier","bold");
+          doc.setFontSize(10);
+          doc.text(width/2, y+2.5, 'APERTURA',{align:"center"});
+          doc.text(width/2, y+3, date.formatDate( Date.now(),'DD')+' de '+date.formatDate( Date.now(),'MM')+' del '+date.formatDate( Date.now(),'YYYY'),{align:"center"});
 
           doc.text('VISTOS Y CONSIDERANDO', x+2, y+4);
           doc.setFont("courier","normal");
           let textLines=doc.splitTextToSize('Que la solicitud presentada por el o la Sr. (a) '+ i.contribuyente.nombres.trim()+' '+i.contribuyente.paterno.trim()+' '+i.contribuyente.materno.trim()+' impetrando al Gobierno Autonomo Municipal de Oruro comuna autorización para la apertura de: '+i.caso.clasificacion.trim()+'; los informes elevados por la unidad de Actividades Económicas',17)
           doc.text(textLines, x+2, y+5);
 
-          textLines=doc.splitTextToSize('Que, habiendo el (la) impetrante cancelado los derechos correspondientes en la caja del tesoro municipal según comprobante adjunto N '+i.numcomprobante,17)
+          textLines=doc.splitTextToSize('Que, habiendo el (la) impetrante cancelado los derechos correspondientes en la caja del tesoro municipal según comprobante adjunto Nro. '+i.numcomprobante,17)
           doc.text(textLines, x+2, y+7);
           doc.setFont("courier","bold");
           doc.text('POR TANTO:', x+2, y+9);
@@ -414,7 +439,7 @@ export default {
           textLines=doc.splitTextToSize('SE RESUELVE: Autorizar al (la) Señor(a): '+ i.contribuyente.nombres.trim()+' '+i.contribuyente.paterno.trim()+' '+i.contribuyente.materno.trim()+', la apertura y legal funcionamiento de: '+i.caso.clasificacion.trim()+', denominado  '+i.negocio.razon.trim()+' ubicado en las calles '+i.negocio.calle+' '+i.negocio.entrecalles+' de la ciudad, debiendo cumplir con el pago de sus obligaciones conforme a la ordenanza de impuesto y patentes ',17)
           doc.text(textLines, x+2, y+10);
 
-          textLines=doc.splitTextToSize('Queda inscrita en el padrón municipal de: actividades económicas, bajo el N '+i.licencia.num+'.',17)
+          textLines=doc.splitTextToSize('Queda inscrita en el padrón municipal de: actividades económicas, bajo el Nro. '+i.licencia.num+'.',17)
           doc.text(textLines, x+2, y+12.5);
 
           textLines=doc.splitTextToSize('De conformidad a la normativa municipal en vigencia la autorización de estas actividades queda bajo la responsabilidad de las unidades involucradas po lo que deberán prever conforme establece el art. 14 de la ley 1178(control previo) y disposiciones sobre la responsabilidad por la función publica',17)
