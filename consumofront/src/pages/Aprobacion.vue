@@ -409,44 +409,42 @@ export default {
     },
 
     resoladmin(i){
-
-
-
+          const mesActual = new Date();
+          const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Setiembre", "Octubre", "Noviembre", "Diciembre"];
           // this.$q.loading.hide()
           var doc = new jsPDF('p','cm','letter')
           var width = doc.internal.pageSize.getWidth()
           // console.log(i);
           doc.setFont("courier","bold");
-          doc.setFontSize(10);
+          doc.setFontSize(14);
           let x=0,y=3;
-          doc.text(x+10, y+1, 'Nº.');
-          doc.text(x+15, y+1, 'Fs.');
+          doc.text(x+15, y+1, 'No.');
           doc.setFont("courier","bold");
           doc.setFontSize(14);
           doc.text(width/2, y+2, "RESOLUCIÓN ADMINISTRATIVA",{align:"center"});
           doc.setFont("courier","bold");
           doc.setFontSize(10);
           doc.text(width/2, y+2.5, 'APERTURA',{align:"center"});
-          doc.text(width/2, y+3, date.formatDate( Date.now(),'DD')+' de '+date.formatDate( Date.now(),'MM')+' del '+date.formatDate( Date.now(),'YYYY'),{align:"center"});
+          doc.text(width/2, y+3, date.formatDate( Date.now(),'DD')+' de '+meses[mesActual.getMonth()]+' del '+date.formatDate( Date.now(),'YYYY'),{align:"center"});
 
           doc.text('VISTOS Y CONSIDERANDO', x+2, y+4);
           doc.setFont("courier","normal");
           let textLines=doc.splitTextToSize('Que la solicitud presentada por el o la Sr. (a) '+ i.contribuyente.nombres.trim()+' '+i.contribuyente.paterno.trim()+' '+i.contribuyente.materno.trim()+' impetrando al Gobierno Autonomo Municipal de Oruro comuna autorización para la apertura de: '+i.caso.clasificacion.trim()+'; los informes elevados por la unidad de Actividades Económicas',17)
-          doc.text(textLines, x+2, y+5);
+          doc.text(textLines, x+2, y+5,{maxWidth: 17,align: "justify"});
 
           textLines=doc.splitTextToSize('Que, habiendo el (la) impetrante cancelado los derechos correspondientes en la caja del tesoro municipal según comprobante adjunto Nro. '+i.numcomprobante,17)
-          doc.text(textLines, x+2, y+7);
+          doc.text(textLines, x+2, y+7,{maxWidth: 17,align: "justify"});
           doc.setFont("courier","bold");
           doc.text('POR TANTO:', x+2, y+9);
           doc.setFont("courier","normal");
           textLines=doc.splitTextToSize('SE RESUELVE: Autorizar al (la) Señor(a): '+ i.contribuyente.nombres.trim()+' '+i.contribuyente.paterno.trim()+' '+i.contribuyente.materno.trim()+', la apertura y legal funcionamiento de: '+i.caso.clasificacion.trim()+', denominado  '+i.negocio.razon.trim()+' ubicado en las calles '+i.negocio.calle+' '+i.negocio.entrecalles+' de la ciudad, debiendo cumplir con el pago de sus obligaciones conforme a la ordenanza de impuesto y patentes ',17)
-          doc.text(textLines, x+2, y+10);
+          doc.text(textLines, x+2, y+10,{maxWidth: 17,align: "justify"});
 
           textLines=doc.splitTextToSize('Queda inscrita en el padrón municipal de: actividades económicas, bajo el Nro. '+i.licencia.num+'.',17)
-          doc.text(textLines, x+2, y+12.5);
+          doc.text(textLines, x+2, y+12.5,{maxWidth: 17,align: "justify"});
 
           textLines=doc.splitTextToSize('De conformidad a la normativa municipal en vigencia la autorización de estas actividades queda bajo la responsabilidad de las unidades involucradas po lo que deberán prever conforme establece el art. 14 de la ley 1178(control previo) y disposiciones sobre la responsabilidad por la función publica',17)
-          doc.text(textLines, x+2, y+14);
+          doc.text(textLines, x+2, y+14,{maxWidth: 17,align: "justify"});
 
           // textLines=doc.splitTextToSize('',17)
           doc.text('Regístrese, comuníquese y archívese.', x+2, y+16);
