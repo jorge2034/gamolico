@@ -33,7 +33,7 @@
             </q-td>
             <q-td key="tramite" :props="props">
 <!--              <q-badge color="orange">-->
-                {{ props.row.tramite }}
+                {{ props.row.nrotramite }}
 <!--              </q-badge>-->
             </q-td>
 <!--            <q-td key="fecha" :props="props">-->

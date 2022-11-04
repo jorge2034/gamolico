@@ -40,7 +40,7 @@
                 </q-badge>
               </q-td>
               <q-td key="tramite" :props="props">
-                {{ props.row.tramite }}
+                {{ props.row.nrotramite }}
               </q-td>
               <q-td key="fecha" :props="props">
                 {{ props.row.fecha }}

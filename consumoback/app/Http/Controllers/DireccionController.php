@@ -237,17 +237,15 @@ class DireccionController extends Controller
 
     public function mistramites(Request $request){
         return Tramite::
-        with('user')
+            where('estado2','ACTIVIDAD ECONOMICA')
+            ->whereIn('estado',['REGISTRADO','VALIDADO','FINALIZADO'])
+            ->with('user')
             ->with('caso')
             ->with('negocio')
             ->with('requisitos')
             ->with('contribuyente')
             ->with('seguimientos')
             ->with('licencia')
-            ->where('estado','REGISTRADO')
-            ->orWhere('estado','VALIDADO')
-            ->orWhere('estado','FINALIZADO')
-            ->where('estado2','ACTIVIDAD ECONOMICA')
             ->get();
     }
     public function mistramitescomprobante(Request $request){
