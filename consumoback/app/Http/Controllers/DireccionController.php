@@ -92,7 +92,7 @@ class DireccionController extends Controller
         $negocio->datoestablecimiento=$request->negocio['datoestablecimiento']!=""?$request->negocio['datoestablecimiento']:'';
         $negocio->tipo=$request->negocio['tipo']!=""?$request->negocio['tipo']:'';
         $negocio->observacion=$request->negocio['observacion']!=""?$request->negocio['observacion']:'';
-
+        $negocio->fechaini = $request->fechaini!=''?$request->fechaini:'';
         $negocio->save();
 
         $tramite=Tramite::find($request->tramite_id);
@@ -172,6 +172,10 @@ class DireccionController extends Controller
 
 
         $tramite->save();
+
+        $negocio=Negocio::find($request->negocio['id']);
+        $negocio->fechaini=$request->fechaini;
+        $negocio->save();
 
         $seguimiento= new Seguimiento();
         if($request->user()->tipo=='TECNICO'){

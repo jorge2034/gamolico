@@ -204,6 +204,7 @@ import {date} from "quasar";
 const { addToDate } = date
 import $ from 'jquery'
 import { jsPDF } from "jspdf";
+import { font } from "./Fenix-Regular-normal";
 export default {
   data(){
     return{
@@ -251,7 +252,15 @@ export default {
       var x=0,y=0;
       var width = doc.internal.pageSize.getWidth()
       doc.setFontSize(19);
-      doc.setFont("courier", 'bold');
+      doc.setFont("courier", 'normal');
+
+      /////////////////////////////////////////////////////////////////////////////////////////
+      //ADD FONT NEW A JSPDF https://www.devlinpeck.com/content/jspdf-custom-font
+      // doc.addFileToVFS("Fenix-Regular-normal.ttf", font);
+      // doc.addFont('Fenix-Regular-normal.ttf', 'Fenix-Regular', 'normal');
+      // doc.setFont("Fenix-Regular");
+
+
       doc.text(x+15.5, y+6.2,i.licencia.num);
       //doc.setFont("courier");
       doc.setFont("courier", 'normal');

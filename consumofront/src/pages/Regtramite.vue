@@ -121,6 +121,7 @@
           </div>
 
           <div class="row">
+
             <q-radio v-model="negocio.establecimiento" val="PROPIO" label="PROPIO" />
             <q-radio v-model="negocio.establecimiento" val="ALQUILADO" label="ALQUILADO" />
             <q-radio v-model="negocio.establecimiento" val="ANTICRETICO" label="ANTICRETICO" />

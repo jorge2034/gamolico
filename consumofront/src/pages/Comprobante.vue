@@ -299,25 +299,34 @@
                             <div class="col-6"></div>
                           </div>
                           <div class="row">
-                            <div class="col-6"><div class="row">
+                            <div class="col-8">
+                              <div class="row">
 <!--                              <q-select dense label="Asignar Tecnico" :options="users" v-model="user" option-label="name" outlined  />-->
- <div class="col-4"><q-input outlined dense v-model="numcomprobante" type="text" label="Num Comprobante"
-                                lazy-rules
-                  :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']"/></div>
-                  <div class="col-4">
-  <q-input outlined dense v-model="nzona" type="text" label="Zona"
-                                lazy-rules
-                  :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']"/></div>
-                                <div class="col-4"><q-input outlined dense v-model="nsector" type="text" label="Sector"
-                                lazy-rules
-                  :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']"/></div>
+                                <div class="col-3">
+                                  <q-input outlined dense v-model="numcomprobante" type="text" label="Num Comprobante"
+                                   lazy-rules
+                                   :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']"/>
                                 </div>
+                                <div class="col-3">
+                                  <q-input outlined dense v-model="nzona" type="text" label="Zona"
+                                   lazy-rules
+                                   :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']"/>
+                                </div>
+                                <div class="col-3">
+                                  <q-input outlined dense v-model="nsector" type="text" label="Sector"
+                                   lazy-rules
+                                  :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']"/>
+                                </div>
+                                <div class="col-3">
+                                  <q-input type="date" dense outlined v-model="fechaini" label="Fecha de Inicio Negocio" />
+                                </div>
+                              </div>
                             </div>
 
-                            <div class="col-3 flex flex-center" >
+                            <div class="col-2 flex flex-center" >
                               <q-btn type="submit" label="Completar tramite " icon="send" color="positive"/>
                             </div>
-                            <div class="col-3 flex flex-center" >
+                            <div class="col-2 flex flex-center" >
                               <q-btn  label="Cancelar" v-close-popup color="red" icon="delete"/>
                             </div>
                           </div>
@@ -462,6 +471,7 @@ export default {
        numcomprobante:'',
        nzona:'',
        nsector:'',
+       fechaini:'',
 
     }
   },
@@ -543,7 +553,8 @@ export default {
         licencia:this.lic,
         numcomprobante:this.numcomprobante,
         nzona:this.nzona,
-        nsector:this.nsector
+        nsector:this.nsector,
+        fechaini:this.fechaini
       }).then(res=>{
 
 

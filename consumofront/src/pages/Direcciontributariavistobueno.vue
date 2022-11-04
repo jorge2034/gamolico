@@ -215,6 +215,7 @@
  <div class="col-4">
   <q-input outlined dense v-model="tramite.nzona" type="text" label="Zona"/></div>
                                 <div class="col-4"><q-input outlined dense v-model="tramite.nsector" type="text" label="Sector"/></div>
+                                <div class="col-4"><q-input outlined dense v-model="tramite.negocio.fechaini" type="date" label="FechaInicio"/></div>
                                 </div>
                             </div>
                             </div>

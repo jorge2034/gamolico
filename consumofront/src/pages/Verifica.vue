@@ -448,6 +448,7 @@
  <div class="col-4">
   <q-input outlined dense v-model="tramite.nzona" type="text" label="Zona"/></div>
                                 <div class="col-4"><q-input outlined dense v-model="tramite.nsector" type="text" label="Sector"/></div>
+                                <div class="col-4"><q-input outlined dense v-model="tramite.negocio.fechaini" type="date" label="FechaInicio"/></div>
                                 </div>
                             </div>
                             </div>
@@ -461,101 +462,6 @@
             </q-form>
           </q-card>
         </q-dialog>
-
-<!--        <q-dialog full-width >-->
-<!--          <q-card >-->
-
-<!--            <q-card-section >-->
-<!--              <q-card-section  class="q-pa-none"><q-banner class="text-h6 bg-grey-7 text-white text-bold text-center">ACTIVIDAD ESPECIFICA</q-banner></q-card-section>-->
-<!--              <q-form>-->
-<!--                <div class="row">-->
-<!--                  <div class="col-2 q-pa-xs"><q-input dense outlined label="tipo NJ" v-model="tramite.negocio.tipo"/></div>-->
-<!--                  <div class="col-2 q-pa-xs"><q-input dense outlined label="actividad" v-model="tramite.negocio.actividad"/></div>-->
-<!--                  <div class="col-2 q-pa-xs"><q-input dense outlined label="sector" v-model="tramite.negocio.sector"/></div>-->
-<!--                  <div class="col-2 q-pa-xs"><q-input dense outlined label="razon" v-model="tramite.negocio.razon"/></div>-->
-<!--                  <div class="col-2 q-pa-xs"><q-input dense outlined label="horario" v-model="tramite.negocio.horario"/></div>-->
-<!--                  <div class="col-2 q-pa-xs"><q-input dense outlined label="descripcionactividad" v-model="tramite.negocio.descripcionactividad"/></div>-->
-<!--                  <div class="col-2 q-pa-xs"><q-input dense outlined label="mts2" v-model="tramite.negocio.mts2"/></div>-->
-<!--                </div>-->
-<!--              </q-form>-->
-<!--              <q-card-section  class="q-pa-none"><q-banner class="text-h6 bg-grey-7 text-white text-bold text-center">1. DATOS DEL PROPIETARIO </q-banner></q-card-section>-->
-<!--              <q-form>-->
-<!--                <div class="row">-->
-<!--                  <div class="col-2 q-pa-xs"><q-input dense outlined label="paterno" v-model="tramite.contribuyente.paterno"/></div>-->
-<!--                  <div class="col-2 q-pa-xs"><q-input dense outlined label="materno" v-model="tramite.contribuyente.materno"/></div>-->
-<!--                  <div class="col-2 q-pa-xs"><q-input dense outlined label="nombres" v-model="tramite.contribuyente.nombres"/></div>-->
-<!--                  <div class="col-2 q-pa-xs"><q-input dense outlined label="esposo" v-model="tramite.contribuyente.esposo"/></div>-->
-<!--                  <div class="col-2 q-pa-xs"><q-input dense outlined label="cedula" v-model="tramite.contribuyente.cedula"/></div>-->
-<!--                  <div class="col-2 q-pa-xs"><q-input dense outlined label="expedido" v-model="tramite.contribuyente.expedido"/></div>-->
-<!--                  <div class="col-2 q-pa-xs"><q-input dense outlined label="telefono" v-model="tramite.contribuyente.telefono"/></div>-->
-<!--                  <div class="col-2 q-pa-xs"><q-input dense outlined label="direccion" v-model="tramite.contribuyente.direccion"/></div>-->
-<!--                  <div class="col-2 q-pa-xs"><q-input dense outlined label="calle" v-model="tramite.contribuyente.calle"/></div>-->
-<!--                  <div class="col-2 q-pa-xs"><q-input dense outlined label="numero" v-model="tramite.contribuyente.numero"/></div>-->
-<!--                  <div class="col-2 q-pa-xs"><q-input dense outlined label="casilla" v-model="tramite.contribuyente.casilla"/></div>-->
-<!--                  <div class="col-2 q-pa-xs"><q-input dense outlined label="fax" v-model="tramite.contribuyente.fax"/></div>-->
-<!--                  <div class="col-2 q-pa-xs"><q-input dense outlined label="extragero" v-model="tramite.contribuyente.extragero"/></div>-->
-<!--                  <div class="col-2 q-pa-xs"><q-input dense outlined label="numeroextrangero" v-model="tramite.contribuyente.numeroextrangero"/></div>-->
-<!--                  <div class="col-2 q-pa-xs"><q-input dense outlined label="numerodni" v-model="tramite.contribuyente.numerodni"/></div>-->
-<!--                  <div class="col-2 q-pa-xs"><q-input dense outlined label="zona" v-model="tramite.contribuyente.zona"/></div>-->
-<!--                  <div class="col-2 q-pa-xs"><q-input dense outlined label="nit" v-model="tramite.contribuyente.nit"/></div>-->
-<!--                </div>-->
-<!--              </q-form>-->
-<!--              <q-card-section  class="q-pa-none"><q-banner class="text-h6 bg-grey-7 text-white text-bold text-center">2. UBICACION DE LA ACTIVIDAD </q-banner></q-card-section>-->
-<!--              <q-form>-->
-<!--                <div class="row">-->
-<!--                  <div class="col-2 q-pa-xs"><q-input dense outlined label="zona" v-model="tramite.negocio.zona"/></div>-->
-<!--                  <div class="col-2 q-pa-xs"><q-input dense outlined label="barrio" v-model="tramite.negocio.barrio"/></div>-->
-<!--                  <div class="col-2 q-pa-xs"><q-input dense outlined label="calle" v-model="tramite.negocio.calle"/></div>-->
-<!--                  <div class="col-2 q-pa-xs"><q-input dense outlined label="entrecalles" v-model="tramite.negocio.entrecalles"/></div>-->
-<!--                  <div class="col-2 q-pa-xs"><q-input dense outlined label="telefono" v-model="tramite.negocio.telefono"/></div>-->
-<!--                  <div class="col-2 q-pa-xs"><q-input dense outlined label="numeroagua" v-model="tramite.negocio.numeroagua"/></div>-->
-<!--                  <div class="col-2 q-pa-xs"><q-input dense outlined label="numeroelectrico" v-model="tramite.negocio.numeroelectrico"/></div>-->
-<!--                  <div class="col-2 q-pa-xs"><q-input dense outlined label="fachada" v-model="tramite.negocio.fachada"/></div>-->
-<!--                  <div class="col-2 q-pa-xs"><q-input dense outlined label="acera" v-model="tramite.negocio.acera"/></div>-->
-<!--                  <div class="col-2 q-pa-xs"><q-input dense outlined label="iluminacion" v-model="tramite.negocio.iluminacion"/></div>-->
-<!--                  <div class="col-2 q-pa-xs"><q-input dense outlined label="letrero" v-model="tramite.negocio.letrero"/></div>-->
-<!--                  <div class="col-2 q-pa-xs"><q-input dense outlined label="observaciones" v-model="tramite.negocio.observaciones"/></div>-->
-<!--                </div>-->
-<!--              </q-form>-->
-<!--              <q-card-section  class="q-pa-none"><q-banner class="text-h6 bg-grey-7 text-white text-bold text-center">3. DATOS DEL ESTABLECIMIENTO </q-banner></q-card-section>-->
-<!--              <q-form>-->
-<!--                <div class="row">-->
-<!--                  <div class="col-2 q-pa-xs"><q-input dense outlined label="tipo" v-model="tramite.negocio.tipo"/></div>-->
-<!--                  <div class="col-2 q-pa-xs"><q-input dense outlined label="datoestablecimiento" v-model="tramite.negocio.datoestablecimiento"/></div>-->
-<!--                  <div class="col-2 q-pa-xs"><q-input dense outlined label="gest" v-model="tramite.negocio.gest"/></div>-->
-<!--                  <div class="col-2 q-pa-xs"><q-input dense outlined label="ruc" v-model="tramite.negocio.ruc"/></div>-->
-<!--                </div>-->
-<!--              </q-form>-->
-<!--              <q-card-section  class="q-pa-none"><q-banner class="text-h6 bg-grey-7 text-white text-bold text-center">4. REQUISITOS PRESENTADOS </q-banner></q-card-section>-->
-<!--              <q-form>-->
-<!--                <div class="row">-->
-<!--                  <div class="col-12">-->
-<!--                    <ul>-->
-<!--                      <li style="padding: 0px;margin: 0px;border: 0px;list-style: none" v-for="r in tramite.requisitos" :key="r.id">{{r.nombre}}</li>-->
-<!--                    </ul>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </q-form>-->
-
-<!--&lt;!&ndash;              <pre>{{tramite}}</pre>&ndash;&gt;-->
-<!--            </q-card-section>-->
-<!--            <q-card-section class="q-pt-none">-->
-<!--              <q-form @submit.prevent="asignar">-->
-<!--                <div class="row">-->
-<!--                  <div class="col-8">-->
-<!--                    <q-select label="Asignar tecnico" :options="users" v-model="user" option-label="name" outlined  />-->
-<!--                  </div>-->
-<!--                  <div class="col-4 flex flex-center" >-->
-<!--                    <q-btn type="submit" label="Designar Tecnico" icon="send" color="primary"/>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </q-form>-->
-<!--            </q-card-section>-->
-<!--            <q-card-section aling="right">-->
-<!--              <q-btn flat label="ok" icon="delete" color="negative" v-close-popup/>-->
-<!--            </q-card-section>-->
-<!--          </q-card>-->
-<!--        </q-dialog>-->
       </div>
     </div>
   </q-page>
@@ -718,7 +624,8 @@ export default {
         licencia:this.lic,
         numcomprobante:this.tramite.numcomprobante,
         nzona:this.tramite.nzona,
-        nsector:this.tramite.nsector
+        nsector:this.tramite.nsector,
+        fechaini: this.tramite.negocio.fechaini,
       }).then(res=>{
 
 
