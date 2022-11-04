@@ -257,10 +257,11 @@
                     </div>
 
                     <div class="row">
-                      <q-radio v-model="tramite.negocio.datoestablecimiento" val="PROPIO" label="PROPIO" />
-                      <q-radio v-model="tramite.negocio.datoestablecimiento" val="ALQUILADO" label="ALQUILADO" />
-                      <q-radio v-model="tramite.negocio.datoestablecimiento" val="ANTICRETICO" label="ANTICRETICO" />
-                      <q-radio v-model="tramite.negocio.datoestablecimiento" val="OTROS" label="OTROS" />
+                      <q-radio class="col-2" v-model="tramite.negocio.datoestablecimiento" val="PROPIO" label="PROPIO" />
+                      <q-radio class="col-2" v-model="tramite.negocio.datoestablecimiento" val="ALQUILADO" label="ALQUILADO" />
+                      <q-radio class="col-2" v-model="tramite.negocio.datoestablecimiento" val="ANTICRETICO" label="ANTICRETICO" />
+                      <q-radio class="col-2" v-model="tramite.negocio.datoestablecimiento" val="OTROS" label="OTROS" />
+                      <q-input class="col-4" type="date" outlined v-model="tramite.negocio.fechaini" label="Fecha de Inicio Negocio" />
                     </div>
                     <div class="row">
                       <div class="col-12">

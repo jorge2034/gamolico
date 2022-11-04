@@ -71,6 +71,7 @@ class DireccionController extends Controller
 
     }
     public function aprobartecnico(Request $request){
+
         $negocio=Negocio::find($request->negocio['id']);
         $negocio->razon=$request->negocio['razon']!=""?$request->negocio['razon']:'';
         $negocio->descripcionactividad=$request->negocio['descripcionactividad']!=""?$request->negocio['descripcionactividad']:'';
@@ -92,7 +93,7 @@ class DireccionController extends Controller
         $negocio->datoestablecimiento=$request->negocio['datoestablecimiento']!=""?$request->negocio['datoestablecimiento']:'';
         $negocio->tipo=$request->negocio['tipo']!=""?$request->negocio['tipo']:'';
         $negocio->observacion=$request->negocio['observacion']!=""?$request->negocio['observacion']:'';
-        $negocio->fechaini = $request->fechaini!=''?$request->fechaini:'';
+        $negocio->fechaini = $request->negocio['fechaini']!=''?$request->negocio['fechaini']:'';
         $negocio->save();
 
         $tramite=Tramite::find($request->tramite_id);

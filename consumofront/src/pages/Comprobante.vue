@@ -318,7 +318,7 @@
                                   :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']"/>
                                 </div>
                                 <div class="col-3">
-                                  <q-input type="date" dense outlined v-model="fechaini" label="Fecha de Inicio Negocio" />
+                                  <q-input type="date" dense outlined v-model="tramite.negocio.fechaini" label="Fecha de Inicio Negocio" />
                                 </div>
                               </div>
                             </div>
@@ -554,7 +554,7 @@ export default {
         numcomprobante:this.numcomprobante,
         nzona:this.nzona,
         nsector:this.nsector,
-        fechaini:this.fechaini
+        fechaini:this.tramite.negocio.fechaini
       }).then(res=>{
 
 
