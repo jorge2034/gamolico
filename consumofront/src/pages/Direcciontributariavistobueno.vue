@@ -162,7 +162,7 @@
                     <hr>
                     <div class="row">
                       <div class="col-3"><q-input dense outlined v-model="tramite.negocio.zona" label="Zona" /></div>
-                      <div class="col-3"><q-input dense outlined v-model="tramite.negocio.Barrio" label="Barrio" /></div>
+                      <div class="col-3"><q-input dense outlined v-model="tramite.negocio.barrio" label="Barrio" /></div>
                       <div class="col-3"><q-input dense outlined v-model="tramite.negocio.calle" label="AV/Calle" /></div>
                       <div class="col-3"><q-input dense outlined v-model="tramite.negocio.entrecalles" label="Entre Calles" /></div>
                     </div>
@@ -214,7 +214,7 @@
 <!--                              <q-select dense label="Asignar Tecnico" :options="users" v-model="user" option-label="name" outlined  />-->
  <div class="col-4">
   <q-input outlined dense v-model="tramite.nzona" type="text" label="Zona"/></div>
-                                <div class="col-4"><q-input outlined dense v-model="tramite.nsector" type="text" label="Sector"/></div>
+                                <!-- <div class="col-4"><q-input outlined dense v-model="tramite.nsector" type="text" label="Sector"/></div> -->
                                 <div class="col-4"><q-input outlined dense v-model="tramite.negocio.fechaini" type="date" label="FechaInicio"/></div>
                                 </div>
                             </div>

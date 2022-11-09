@@ -167,7 +167,7 @@
             <q-form >
               <!--              <q-select dense filled v-model="tram" :options="tramites" label="Nro Tramites" @update:model-value="cambio(tram.value)"/>-->
               <q-card-section>
-                <div class="text-h6 text-center" >DATOS DE CONTRIBUYENTE</div>
+                <div class="text-h6 text-center" >DATOS DE CONTRIBUYENTE <q-badge>ACTUALIZACION DE DATOS</q-badge></div>
                 <q-tabs
                   v-model="tramite.negocio.tipo"
                   dense
@@ -238,7 +238,7 @@
                     <hr>
                     <div class="row">
                       <div class="col-3"><q-input dense outlined v-model="tramite.negocio.zona" label="Zona" /></div>
-                      <div class="col-3"><q-input dense outlined v-model="tramite.negocio.Barrio" label="Barrio" /></div>
+                      <div class="col-3"><q-input dense outlined v-model="tramite.negocio.barrio" label="Barrio" /></div>
                       <div class="col-3"><q-input dense outlined v-model="tramite.negocio.calle" label="AV/Calle" /></div>
                       <div class="col-3"><q-input dense outlined v-model="tramite.negocio.entrecalles" label="Entre Calles" /></div>
                     </div>
@@ -249,7 +249,7 @@
                       <div class="col-3"><q-input dense outlined v-model="tramite.negocio.numeroelectrico" label="No Med Elec" /></div>
                     </div>
                     <div class="row">
-                      <div class="col-4"><q-input dense outlined v-model="tramite.negocio.observaciones" label="Observacion" /></div>
+                      <div class="col-4"><q-input dense outlined v-model="tramite.negocio.observacion" label="Observacion" /></div>
                       <div class="col-2"><q-checkbox v-model="tramite.negocio.fachada" label="Fachada" /></div>
                       <div class="col-2"><q-checkbox v-model="tramite.negocio.acera" label="Acera" /></div>
                       <div class="col-2"><q-checkbox v-model="tramite.negocio.iluminacion" label="Iluminacion" /></div>
@@ -261,7 +261,7 @@
                       <q-radio class="col-2" v-model="tramite.negocio.datoestablecimiento" val="ALQUILADO" label="ALQUILADO" />
                       <q-radio class="col-2" v-model="tramite.negocio.datoestablecimiento" val="ANTICRETICO" label="ANTICRETICO" />
                       <q-radio class="col-2" v-model="tramite.negocio.datoestablecimiento" val="OTROS" label="OTROS" />
-                      <q-input class="col-4" type="date" outlined v-model="tramite.negocio.fechaini" label="Fecha de Inicio Negocio" />
+                      <q-input class="col-4" type="date" outlined v-model="tramite.negocio.fechaini" label="Fecha de Inicio Negocio" required/>
                     </div>
                     <div class="row">
                       <div class="col-12">

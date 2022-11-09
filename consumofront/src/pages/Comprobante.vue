@@ -140,7 +140,7 @@
                     <hr>
                     <div class="row">
                       <div class="col-3"><q-input dense outlined v-model="tramite.negocio.zona" label="Zona" /></div>
-                      <div class="col-3"><q-input dense outlined v-model="tramite.negocio.Barrio" label="Barrio" /></div>
+                      <div class="col-3"><q-input dense outlined v-model="tramite.negocio.barrio" label="Barrio" /></div>
                       <div class="col-3"><q-input dense outlined v-model="tramite.negocio.calle" label="AV/Calle" /></div>
                       <div class="col-3"><q-input dense outlined v-model="tramite.negocio.entrecalles" label="Entre Calles" /></div>
                     </div>
@@ -151,7 +151,7 @@
                       <div class="col-3"><q-input dense outlined v-model="tramite.negocio.numeroelectrico" label="No Med Elec" /></div>
                     </div>
                     <div class="row">
-                      <div class="col-4"><q-input dense outlined v-model="tramite.negocio.observaciones" label="Observacion" /></div>
+                      <div class="col-4"><q-input dense outlined v-model="tramite.negocio.observacion" label="Observacion" /></div>
                       <div class="col-2"><q-checkbox v-model="tramite.negocio.fachada" label="Fachada" /></div>
                       <div class="col-2"><q-checkbox v-model="tramite.negocio.acera" label="Acera" /></div>
                       <div class="col-2"><q-checkbox v-model="tramite.negocio.iluminacion" label="Iluminacion" /></div>
@@ -268,7 +268,7 @@
                     <hr>
                     <div class="row">
                       <div class="col-3"><q-input dense outlined v-model="tramite.negocio.zona" label="Zona" /></div>
-                      <div class="col-3"><q-input dense outlined v-model="tramite.negocio.Barrio" label="Barrio" /></div>
+                      <div class="col-3"><q-input dense outlined v-model="tramite.negocio.barrio" label="Barrio" /></div>
                       <div class="col-3"><q-input dense outlined v-model="tramite.negocio.calle" label="AV/Calle" /></div>
                       <div class="col-3"><q-input dense outlined v-model="tramite.negocio.entrecalles" label="Entre Calles" /></div>
                     </div>
@@ -279,7 +279,7 @@
                       <div class="col-3"><q-input dense outlined v-model="tramite.negocio.numeroelectrico" label="No Med Elec" /></div>
                     </div>
                     <div class="row">
-                      <div class="col-4"><q-input dense outlined v-model="tramite.negocio.observaciones" label="Observacion" /></div>
+                      <div class="col-4"><q-input dense outlined v-model="tramite.negocio.observacion" label="Observacion" /></div>
                       <div class="col-2"><q-checkbox v-model="tramite.negocio.fachada" label="Fachada" /></div>
                       <div class="col-2"><q-checkbox v-model="tramite.negocio.acera" label="Acera" /></div>
                       <div class="col-2"><q-checkbox v-model="tramite.negocio.iluminacion" label="Iluminacion" /></div>
@@ -302,22 +302,22 @@
                             <div class="col-8">
                               <div class="row">
 <!--                              <q-select dense label="Asignar Tecnico" :options="users" v-model="user" option-label="name" outlined  />-->
-                                <div class="col-3">
+                                <div class="col-6">
                                   <q-input outlined dense v-model="numcomprobante" type="text" label="Num Comprobante"
                                    lazy-rules
                                    :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']"/>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-6">
                                   <q-input outlined dense v-model="nzona" type="text" label="Zona"
                                    lazy-rules
                                    :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']"/>
                                 </div>
-                                <div class="col-3">
-                                  <q-input outlined dense v-model="nsector" type="text" label="Sector"
+                                <div class="col-6">
+                                  <q-input outlined dense v-model="npadron" type="text" label="Num. Padron y Licencia"
                                    lazy-rules
                                   :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']"/>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-6">
                                   <q-input type="date" dense outlined v-model="tramite.negocio.fechaini" label="Fecha de Inicio Negocio" />
                                 </div>
                               </div>
@@ -471,6 +471,7 @@ export default {
        numcomprobante:'',
        nzona:'',
        nsector:'',
+       npadron:'',
        fechaini:'',
 
     }
@@ -554,6 +555,7 @@ export default {
         numcomprobante:this.numcomprobante,
         nzona:this.nzona,
         nsector:this.nsector,
+        npadron:this.npadron,
         fechaini:this.tramite.negocio.fechaini
       }).then(res=>{
 

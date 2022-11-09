@@ -147,7 +147,7 @@
                     <hr>
                     <div class="row">
                       <div class="col-3"><q-input dense outlined v-model="tramite.negocio.zona" label="Zona" /></div>
-                      <div class="col-3"><q-input dense outlined v-model="tramite.negocio.Barrio" label="Barrio" /></div>
+                      <div class="col-3"><q-input dense outlined v-model="tramite.negocio.barrio" label="Barrio" /></div>
                       <div class="col-3"><q-input dense outlined v-model="tramite.negocio.calle" label="AV/Calle" /></div>
                       <div class="col-3"><q-input dense outlined v-model="tramite.negocio.entrecalles" label="Entre Calles" /></div>
                     </div>
@@ -278,7 +278,12 @@ export default {
       doc.text(x+1.2, y+14.5, i.negocio.descripcionactividad.toString().substring(29,59));
       doc.text(x+1.2, y+15, i.negocio.descripcionactividad.toString().substring(59,89));
 
-      doc.text(x+1.2, y+16.5, i.licencia.caso.clasificacion);
+      let textLines=doc.splitTextToSize(i.licencia.caso.clasificacion.trim(),5)
+      doc.text(textLines, x+1.2,y+16.5,{maxWidth: 5});
+      //doc.text(x+1.2, y+16.5, i.licencia.caso.clasificacion.trim);
+      //doc.text(x+1.2, y+17, i.licencia.caso.clasificacion.toString().substring(20,40));
+
+
       console.log(i.licencia)
       let miPrimeraPromise = new Promise((resolve, reject) => {
         // Llamamos a resolve(...) cuando lo que estabamos haciendo finaliza con éxito, y reject(...) cuando falla.
@@ -427,10 +432,10 @@ export default {
           doc.setFont("courier","bold");
           doc.setFontSize(14);
           let x=0,y=3;
-          doc.text(x+15, y+1, 'No.');
+         // doc.text(x+15, y+1, 'No.');
           doc.setFont("courier","bold");
           doc.setFontSize(14);
-          doc.text(width/2, y+2, "RESOLUCIÓN ADMINISTRATIVA",{align:"center"});
+          doc.text(width/2-2, y+2, "RESOLUCIÓN ADMINISTRATIVA No.",{align:"center"});
           doc.setFont("courier","bold");
           doc.setFontSize(10);
           doc.text(width/2, y+2.5, 'APERTURA',{align:"center"});

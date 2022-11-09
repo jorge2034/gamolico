@@ -74,7 +74,7 @@
             <q-form >
 <!--              <q-select dense filled v-model="tram" :options="tramites" label="Nro Tramites" @update:model-value="cambio(tram.value)"/>-->
               <q-card-section>
-                <div class="text-h6 text-center" >DATOS DE CONTRIBUYENTE</div>
+                <div class="text-h6 text-center" >DATOS DE CONTRIBUYENTE <q-badge>Asignar inspección</q-badge></div>
                 <q-tabs
                   v-model="tramite.negocio.tipo"
                   dense
@@ -142,7 +142,7 @@
                     <hr>
                     <div class="row">
                       <div class="col-3"><q-input dense outlined v-model="tramite.negocio.zona" label="Zona" /></div>
-                      <div class="col-3"><q-input dense outlined v-model="tramite.negocio.Barrio" label="Barrio" /></div>
+                      <div class="col-3"><q-input dense outlined v-model="tramite.negocio.barrio" label="barrio" /></div>
                       <div class="col-3"><q-input dense outlined v-model="tramite.negocio.calle" label="AV/Calle" /></div>
                       <div class="col-3"><q-input dense outlined v-model="tramite.negocio.entrecalles" label="Entre Calles" /></div>
                     </div>
@@ -153,7 +153,7 @@
                       <div class="col-3"><q-input dense outlined v-model="tramite.negocio.numeroelectrico" label="No Med Elec" /></div>
                     </div>
                     <div class="row">
-                      <div class="col-4"><q-input dense outlined v-model="tramite.negocio.observaciones" label="Observacion" /></div>
+                      <div class="col-4"><q-input dense outlined v-model="tramite.negocio.observacion" label="Observacion" /></div>
                       <div class="col-2"><q-checkbox v-model="tramite.negocio.fachada" label="Fachada" /></div>
                       <div class="col-2"><q-checkbox v-model="tramite.negocio.acera" label="Acera" /></div>
                       <div class="col-2"><q-checkbox v-model="tramite.negocio.iluminacion" label="Iluminacion" /></div>
@@ -200,7 +200,7 @@
             <q-form >
 <!--              <q-select dense filled v-model="tram" :options="tramites" label="Nro Tramites" @update:model-value="cambio(tram.value)"/>-->
               <q-card-section>
-                <div class="text-h6 text-center" >DATOS DE CONTRIBUYENTE</div>
+                <div class="text-h6 text-center" >DATOS DE CONTRIBUYENTE <q-badge>ASIGNAR COMPROBANTE</q-badge></div>
                 <q-tabs
                   v-model="tramite.negocio.tipo"
                   dense
@@ -268,7 +268,7 @@
                     <hr>
                     <div class="row">
                       <div class="col-3"><q-input dense outlined v-model="tramite.negocio.zona" label="Zona" /></div>
-                      <div class="col-3"><q-input dense outlined v-model="tramite.negocio.Barrio" label="Barrio" /></div>
+                      <div class="col-3"><q-input dense outlined v-model="tramite.negocio.barrio" label="Barrio" /></div>
                       <div class="col-3"><q-input dense outlined v-model="tramite.negocio.calle" label="AV/Calle" /></div>
                       <div class="col-3"><q-input dense outlined v-model="tramite.negocio.entrecalles" label="Entre Calles" /></div>
                     </div>
@@ -279,7 +279,7 @@
                       <div class="col-3"><q-input dense outlined v-model="tramite.negocio.numeroelectrico" label="No Med Elec" /></div>
                     </div>
                     <div class="row">
-                      <div class="col-4"><q-input dense outlined v-model="tramite.negocio.observaciones" label="Observacion" /></div>
+                      <div class="col-4"><q-input dense outlined v-model="tramite.negocio.observacion" label="Observacion" /></div>
                       <div class="col-2"><q-checkbox v-model="tramite.negocio.fachada" label="Fachada" /></div>
                       <div class="col-2"><q-checkbox v-model="tramite.negocio.acera" label="Acera" /></div>
                       <div class="col-2"><q-checkbox v-model="tramite.negocio.iluminacion" label="Iluminacion" /></div>
@@ -306,7 +306,7 @@
                               <div class="col-3 flex flex-center" >
                                 <q-btn  label="CANCELAR" v-close-popup color="red" icon="delete"/>
                               </div>
-                            </div>0
+                            </div>
                           </q-form>
                       </div>
                     </div>
@@ -326,7 +326,7 @@
             <q-form >
               <!--              <q-select dense filled v-model="tram" :options="tramites" label="Nro Tramites" @update:model-value="cambio(tram.value)"/>-->
               <q-card-section>
-                <div class="text-h6 text-center" >DATOS DE CONTRIBUYENTE</div>
+                <div class="text-h6 text-center" >DATOS DE CONTRIBUYENTE <q-badge>VERIFICACION DE DATOS</q-badge></div>
                 <q-tabs
                   v-model="tramite.negocio.tipo"
                   dense
@@ -397,7 +397,7 @@
                     <hr>
                     <div class="row">
                       <div class="col-3"><q-input dense outlined v-model="tramite.negocio.zona" label="Zona" /></div>
-                      <div class="col-3"><q-input dense outlined v-model="tramite.negocio.Barrio" label="Barrio" /></div>
+                      <div class="col-3"><q-input dense outlined v-model="tramite.negocio.barrio" label="Barrio" /></div>
                       <div class="col-3"><q-input dense outlined v-model="tramite.negocio.calle" label="AV/Calle" /></div>
                       <div class="col-3"><q-input dense outlined v-model="tramite.negocio.entrecalles" label="Entre Calles" /></div>
                     </div>
@@ -408,7 +408,7 @@
                       <div class="col-3"><q-input dense outlined v-model="tramite.negocio.numeroelectrico" label="No Med Elec" /></div>
                     </div>
                     <div class="row">
-                      <div class="col-4"><q-input dense outlined v-model="tramite.negocio.observaciones" label="Observacion" /></div>
+                      <div class="col-4"><q-input dense outlined v-model="tramite.negocio.observacion" label="Observacion" /></div>
                       <div class="col-2"><q-checkbox v-model="tramite.negocio.fachada" label="Fachada" /></div>
                       <div class="col-2"><q-checkbox v-model="tramite.negocio.acera" label="Acera" /></div>
                       <div class="col-2"><q-checkbox v-model="tramite.negocio.iluminacion" label="Iluminacion" /></div>
@@ -428,11 +428,17 @@
                             <div class="col-6"></div>
                           </div>
                           <div class="row">
-                            <div class="col-6"><div class="row">
+                            <div class="col-6">
+                              <div class="row">
 <!--                              <q-select dense label="Asignar Tecnico" :options="users" v-model="user" option-label="name" outlined  />-->
- <div class="col-4"><q-input outlined dense v-model="tramite.numcomprobante" type="text" label="Num Comprobante"/></div>
-                                <div class="col-4"><q-input outlined dense v-model="lic.num" type="text" label="Numero"/></div>
-                                <div class="col-4"><q-input outlined dense v-model="lic.numlicencia" type="text" label="N Licencia"/></div>
+                                <div class="col-4"><q-input outlined dense v-model="tramite.numcomprobante"
+                                  type="text" label="Num Comprobante"/></div>
+                                <div class="col-4"><q-input outlined dense v-model="tramite.licencia.num"
+                                  lazy-rules :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']"
+                                  type="text" label="Num. Padron"/></div>
+                                <div class="col-4"><q-input outlined dense v-model="tramite.licencia.numlicencia"
+                                  lazy-rules :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']"
+                                  type="text" label="Num. Licencia"/></div>
                                 </div>
                             </div>
 
@@ -446,10 +452,12 @@
                           <div class="row">
                             <div class="col-6"><div class="row">
 <!--                              <q-select dense label="Asignar Tecnico" :options="users" v-model="user" option-label="name" outlined  />-->
- <div class="col-4">
-  <q-input outlined dense v-model="tramite.nzona" type="text" label="Zona"/></div>
-                                <div class="col-4"><q-input outlined dense v-model="tramite.nsector" type="text" label="Sector"/></div>
-                                <div class="col-4"><q-input outlined dense v-model="tramite.negocio.fechaini" type="date" label="FechaInicio"/></div>
+                                <div class="col-4"><q-input outlined dense v-model="tramite.nzona"
+                                  lazy-rules :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']"
+                                  type="text" label="Zona"/></div>
+                                <div class="col-4"><q-input outlined dense v-model="tramite.negocio.fechaini"
+                                  lazy-rules :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']"
+                                  type="date" label="FechaInicio"/></div>
                                 </div>
                             </div>
                             </div>
@@ -497,7 +505,6 @@ export default {
        actividad:[],
       negact:{},
       dialogtramitevalidado:false,
-       lic:{},
        numcomprobante:'',
        nzona:'',
        nsector:'',
@@ -622,10 +629,10 @@ export default {
         tramite_id:this.tramite.id,
         caso:this.negact.value,
         negocio:this.tramite.negocio,
-        licencia:this.lic,
         numcomprobante:this.tramite.numcomprobante,
         nzona:this.tramite.nzona,
         nsector:this.tramite.nsector,
+        npadron:this.tramite.licencia.num,
         fechaini: this.tramite.negocio.fechaini,
       }).then(res=>{
 

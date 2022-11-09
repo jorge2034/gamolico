@@ -162,7 +162,7 @@
                     <hr>
                     <div class="row">
                       <div class="col-3"><q-input dense outlined v-model="tramite.negocio.zona" label="Zona" /></div>
-                      <div class="col-3"><q-input dense outlined v-model="tramite.negocio.Barrio" label="Barrio" /></div>
+                      <div class="col-3"><q-input dense outlined v-model="tramite.negocio.barrio" label="Barrio" /></div>
                       <div class="col-3"><q-input dense outlined v-model="tramite.negocio.calle" label="AV/Calle" /></div>
                       <div class="col-3"><q-input dense outlined v-model="tramite.negocio.entrecalles" label="Entre Calles" /></div>
                     </div>
@@ -173,7 +173,7 @@
                       <div class="col-3"><q-input dense outlined v-model="tramite.negocio.numeroelectrico" label="No Med Elec" /></div>
                     </div>
                     <div class="row">
-                      <div class="col-4"><q-input dense outlined v-model="tramite.negocio.observaciones" label="Observacion" /></div>
+                      <div class="col-4"><q-input dense outlined v-model="tramite.negocio.observacion" label="Observacion" /></div>
                       <div class="col-2"><q-checkbox v-model="tramite.negocio.fachada" label="Fachada" /></div>
                       <div class="col-2"><q-checkbox v-model="tramite.negocio.acera" label="Acera" /></div>
                       <div class="col-2"><q-checkbox v-model="tramite.negocio.iluminacion" label="Iluminacion" /></div>
@@ -274,7 +274,7 @@ export default {
 
       let id=i.id
       this.$q.dialog({
-        title:'Seguro de enviar a actividades economicas',
+        title:'¿Seguro de enviar a actividades economicas?',
         // message:''
         cancel:true
       }).onOk(()=> {

@@ -71,7 +71,6 @@ class DireccionController extends Controller
 
     }
     public function aprobartecnico(Request $request){
-
         $negocio=Negocio::find($request->negocio['id']);
         $negocio->razon=$request->negocio['razon']!=""?$request->negocio['razon']:'';
         $negocio->descripcionactividad=$request->negocio['descripcionactividad']!=""?$request->negocio['descripcionactividad']:'';
@@ -94,6 +93,8 @@ class DireccionController extends Controller
         $negocio->tipo=$request->negocio['tipo']!=""?$request->negocio['tipo']:'';
         $negocio->observacion=$request->negocio['observacion']!=""?$request->negocio['observacion']:'';
         $negocio->fechaini = $request->negocio['fechaini']!=''?$request->negocio['fechaini']:'';
+        $negocio->licencia = $request->npadron;
+
         $negocio->save();
 
         $tramite=Tramite::find($request->tramite_id);
@@ -112,8 +113,8 @@ class DireccionController extends Controller
             $tramite->estado2='ACTIVIDAD ECONOMICA';
             $tramite->numcomprobante=$request->numcomprobante;
             $tramite->nzona=$request->nzona;
-            $tramite->nsector=$request->nsector;
-            $tramite->licencia=$request->licencia['numlicencia'];
+            $tramite->nsector=5;
+            $tramite->licencia=$request->npadron;
         }
 
         $tramite->save();
@@ -132,18 +133,11 @@ class DireccionController extends Controller
         $seguimiento->user_id=$request->user()->id;
         $seguimiento->save();
 
-        // $seguimiento= new Seguimiento();
-        // $seguimiento->nombre="TRAMITE FINALIZADO";
-        // $seguimiento->observacion="TERMINADO";
-        // $seguimiento->fecha=date('Y-m-d');
-        // $seguimiento->hora=date('H:i:s');
-        // $seguimiento->tramite_id=$tramite->id;
-        // $seguimiento->user_id=$request->user()->id;
-        // $seguimiento->save();
+
         if($request->user()->tipo!='TECNICO'){
         $licencia=new Licencia();
-        $licencia->num=$request->licencia['num'];
-        $licencia->numlicencia=$request->licencia['numlicencia'];
+        $licencia->num=$request->npadron;
+        $licencia->numlicencia=$request->npadron;
         $licencia->fecha=$tramite->fecha;
         $licencia->fechaautorizacion=date('Y-m-d');
         $licencia->fechafin=date('Y-m-d', strtotime('+2 year'));
@@ -169,14 +163,37 @@ class DireccionController extends Controller
             $tramite->estado2='ACTIVIDAD ECONOMICA';
             $tramite->numcomprobante=$request->numcomprobante;
             $tramite->nzona=$request->nzona;
-            $tramite->nsector=$request->nsector;
+            $tramite->nsector=5;
+            $tramite->licencia=$request->npadron;
 
 
         $tramite->save();
 
         $negocio=Negocio::find($request->negocio['id']);
         $negocio->fechaini=$request->fechaini;
+        $negocio->licencia=$request->npadron;
         $negocio->save();
+
+
+        $licencia=new Licencia();
+        $licencia->num=$request->npadron;
+        $licencia->numlicencia=$request->npadron;
+        $licencia->fecha=$tramite->fecha;
+        $licencia->fechaautorizacion=date('Y-m-d');
+        $licencia->fechafin=date('Y-m-d', strtotime('+2 year'));
+        $licencia->foto='';
+        $licencia->hora=date('H:i:s');
+        $licencia->fechalimite=$tramite->fechalimite;
+        $licencia->tipo=$tramite->tipo;
+        $licencia->estado='ACTIVO';
+//        $licencia->entramite=$request->entramite;
+        $licencia->user_id=$request->user()->id;
+        $licencia->contribuyente_id=$negocio->contribuyente_id;
+        $licencia->negocio_id=$tramite->negocio_id;
+        $licencia->caso_id=$tramite->caso_id;
+        $licencia->tramite_id=$tramite->id;
+        $licencia->save();
+
 
         $seguimiento= new Seguimiento();
         if($request->user()->tipo=='TECNICO'){
