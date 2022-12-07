@@ -33,7 +33,7 @@ class Licencia extends Model
         return $this->belongsTo(Negocio::class)->with('contribuyente');
     }
     public function contribuyente(){
-        return $this->belongsTo(contribuyente::class);
+        return $this->belongsTo(Contribuyente::class);
     }
     public function caso(){
         return $this->belongsTo(Caso::class);
