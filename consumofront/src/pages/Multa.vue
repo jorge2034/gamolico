@@ -2,7 +2,7 @@
   <q-page class="q-pa-xs">
     <q-card>
       <div class="text-h6">Historial de Multas</div>
-        
+
         <div>
             <q-select
               filled
@@ -26,7 +26,8 @@
         </div>
 
         <div>
-                <h6>DATO DE PROPIETARIO</h6>
+
+             <h6>DATO DE PROPIETARIO</h6>
                 <div class="row">
                     <div class="col-6">Cedula de Identidad: {{contribuyente.cedula}}</div>
                     <div class="col-6">Nombre Completo: {{contribuyente.nombres}} {{contribuyente.paterno}} {{contribuyente.materno}}</div>
@@ -42,11 +43,56 @@
                     <div class="col-6">Clasificacion: {{caso.clasificacion}}</div>
                     <div class="col-6">Dias:{{caso.caso}}</div>
                     <div class="col-3">Horario: {{caso.inicio}} - {{caso.fin}}</div>
+                    <div class="col-3">Estado: <q-badge color="red" v-if="licencia.estado=='CLAUSURA'">{{licencia.estado}}</q-badge><q-badge color="yellow" text-color="black" v-else>{{licencia.estado}}</q-badge></div>
                 </div>
         </div>
     <div>
         <q-btn color="amber" label="Registrar Sancion" @click="onReg" />
-            <q-dialog v-model="dialog_multa" >
+
+    </div>
+      <q-table
+       title="Multas y Sanciones"
+        :columns="columns"
+        :rows="historialmultas"
+      >
+        <!--<template v-slot:top-right>
+                     <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">-->
+<!--            <template v-slot:append>-->
+<!--              <q-icon name="search" />-->
+<!--            </template>-->
+<!--          </q-input>-->
+<!--        </template>-->
+        <template v-slot:body="props">
+          <q-tr :props="props">
+            <q-td key="fecha" :props="props">
+                {{props.row.fecha }}
+            </q-td>
+            <q-td key="titulo" :props="props">
+               {{props.row.detallemulta.multa.titulo }}
+              <br>
+               <q-badge color="yellow-6" text-color="black"> {{props.row.detallemulta.titulo }}</q-badge>
+            </q-td>
+            <q-td key="monto" :props="props">
+                {{props.row.monto }}
+            </q-td>
+            <q-td key="dia" :props="props">
+                {{props.row.detallemulta.dia }}
+            </q-td>
+            <q-td key="inicio" :props="props">
+                {{props.row.inicio }}
+            </q-td>
+            <q-td key="fin" :props="props">
+                {{props.row.fin }}
+            </q-td>
+            <q-td key="estado" :props="props">
+                {{props.row.estado }}
+            </q-td>
+          </q-tr>
+        </template>
+        </q-table>
+    </q-card>
+
+    <q-dialog v-model="dialog_multa" >
       <q-card style="min-width: 350px">
         <q-card-section>
           <div class="text-h6">Registrar Sancion</div>
@@ -72,21 +118,6 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
-    </div>
-      <q-table
-       title="Multas y Sanciones"
-        :columns="columns"
-        :rows="historialmultas"
-      >
-        <!--<template v-slot:top-right>
-                     <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">-->
-<!--            <template v-slot:append>-->
-<!--              <q-icon name="search" />-->
-<!--            </template>-->
-<!--          </q-input>-->
-<!--        </template>-->
-        </q-table>
-    </q-card>
   </q-page>
 </template>
 
@@ -120,9 +151,9 @@ export default {
       // contribuyentes:[],
        columns:[
          { name: 'fecha', label: 'fecha', field: 'fecha'},
-         { name: 'titulo', label: 'titulo', field: row=>row.detallemulta.multa.titulo},
+         { name: 'titulo', label: 'titulo', field: 'titulo'},
          { name: 'monto', label: 'monto', field: 'monto'},
-         { name: 'dias', label: 'dias', field: row=>row.detallemulta.dia},
+         { name: 'dia', label: 'dias', field: 'dia'},
          { name: 'inicio', label: 'inicio', field: 'inicio'},
          { name: 'fin', label: 'fin', field: 'fin'},
          { name: 'estado', label: 'estado', field: 'estado'},
@@ -138,8 +169,8 @@ export default {
     // }, 1000)
     // console.log('ias')
     // window.location.reload(true)
-    this.licencias();
-     this.listmultas();
+     this.licencias();
+    //  this.listmultas();
   },
   methods:{
       licencias(){
@@ -154,15 +185,16 @@ export default {
                 contribuyente: r.contribuyente,
                 caso:r.caso,
                 negocio:r.negocio,
-                
-                licencia:r,                
+
+                licencia:r,
                 historialmultas:r.historialmultas,
                 label: 'Lic: '+r.numlicencia + ' ' + r.contribuyente.nombres+' '+r.contribuyente.paterno+' '+r.contribuyente.materno + ' TIPO:' + r.caso.tipo,
               }
               this.options.push(dat)
               this.options2.push(dat)
+              // this.historialmultas.push(r.historialmultas)
             })
-          
+
        this.$q.loading.hide()
      })
       },
@@ -174,32 +206,32 @@ export default {
       },
       registrarmulta(){
           if(this.regmulta=={}){
-              this.$q.notify({
-          message: 'Debe seleccionar sancion.',
-          icon: 'error'
-        })  
-              return false;
+            this.$q.notify({
+              message: 'Debe seleccionar sancion.',
+              icon: 'error'
+            })
+            return false;
           }
 
         if(this.licencia.estado=='CLAUSURA'){
-              this.$q.notify({
-          message: 'Licencia cancelada',
-          icon: 'error'
-        })  
-              return false;
+          this.$q.notify({
+            message: 'Licencia cancelada',
+            icon: 'error'
+          })
+          return false;
           }
 
-           this.regmulta.licencia_id=this.licencia.id;
+          this.regmulta.licencia_id=this.licencia.id;
           this.regmulta.detallemulta_id=this.regmulta.id;
           this.regmulta.multa_id=this.sancion.value;
 
-    
+        console.log("regmulta",this.regmulta)
         this.$axios.post(process.env.API+'/historialmulta',this.regmulta).then(res=>{
                           this.$q.notify({
                 message: 'Registro de Sancion.',
                 icon: 'send',
                 color: 'green'
-        }) 
+        })
         this.dialog_multa=false;
         this.licencias();
         })
@@ -210,13 +242,13 @@ export default {
           this.sancion.detalle.forEach(element => {
               this.detallemultas.push({label:element.titulo,detallemulta:element})
           });
-          
+
       },
       llenar(){
           this.regmulta=this.detalle.detallemulta;
       },
       onReg(){
-          if(this.licencia.estado=='ACTIVO' || this.licencia.estado=='SUSPENCION')
+          if(this.licencia.estado=='ACTIVO' || this.licencia.estado=='SUSPENSION')
           this.dialog_multa=true;
 
       },
@@ -260,4 +292,3 @@ export default {
 
 }
 </script>
-    
