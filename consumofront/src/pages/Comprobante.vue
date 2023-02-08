@@ -590,13 +590,13 @@ export default {
     },
        daraltae(){
         // console.log(this.tramite)
-          var img= new Image()
-          img.src='logo.jpg'
+          // var img= new Image()
+          // img.src='logo.jpg'
 
           var doc = new jsPDF('p','cm','letter')
           doc.setFont("courier","bold");
           doc.setFontSize(10);
-          doc.addImage(img,'jpg',0.5,0.5,2,2)
+          // doc.addImage(img,'jpg',0.5,0.5,2,2)
           let x=0,y=0;
           doc.text(x+11.5, y+1, 'GOBIERNO MUNICIPAL DE ORURO','center');
           doc.text(x+11.5, y+1.5, 'UNIDAD DE ACTIVIDADES ECONOMICAS','center');
